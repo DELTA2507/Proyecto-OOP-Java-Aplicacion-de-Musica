@@ -8,9 +8,8 @@ public class Admin extends User {
 
     @Override
     public String toString() {
-        return "Admin{" +
-                "id=" + getId() +
-                ", username='" + getUsername() + '\'' +
-                '}';
+        return " Admin" +
+                "\n Id: " + getId() +
+                "\n Username: " + getUsername();
     }
 }

@@ -7,7 +7,7 @@ public class Playlist {
 
     private int id;
     private String name;
-    private List<Song> songs;
+    private List<Song> songs; //Cambiar List a Arraylist
 
     public Playlist(int id, String name, List<Song> songs) {
         this.id = id;
@@ -24,6 +24,7 @@ public class Playlist {
     }
 
     public String toString() {
-        return "Playlist: " + name + " (" + songs.size() + " songs)";
+        return " Playlist: " + name +
+                "\n (" + songs.size() + " songs)";
     }
 }

@@ -21,8 +21,7 @@ public class Rating {
 
     @Override
     public String toString() {
-        return "Rating{" +
-                "value=" + value +
-                '}';
+        return " Rating" +
+                "\n Value: " + value;
     }
 }

@@ -42,6 +42,8 @@ public class Song {
     }
 
     public String toString() {
-        return title + " - " + artist + " ($" + price + ")";
+
+        return " " + title + " - " + artist +
+                "\n ($" + price + ")";
     }
 }

@@ -16,11 +16,13 @@ public abstract class User {
         this.password = password;
     }
 
+    //Getters
     public int getId() { return id; }
     public String getEmail() { return email; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
 
+    //Setters
     public void setId(int id) {
         this.id = id;
     }
@@ -39,11 +41,10 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", fullName='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", balance=" + password +
-                '}';
+        return " User" +
+                "\n id:" + id +
+                "\n FullName: " + email +
+                "\n Username: " + username +
+                "\n Balance: " + password;
     }
 }

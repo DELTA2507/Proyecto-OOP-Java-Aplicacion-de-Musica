@@ -5,7 +5,7 @@ import java.util.List;
 public class PlaybackQueue {
 
     private int id;
-    private List<Song> songs;
+    private List<Song> songs; //Cambiar las List a ArrayList
 
     public PlaybackQueue(
             int id,
@@ -17,8 +17,7 @@ public class PlaybackQueue {
 
     @Override
     public String toString() {
-        return "PlaybackQueue{" +
-                "songs=" + songs.size() +
-                '}';
+        return " Playback Queue" +
+                "\n Songs: " + songs.size();
     }
 }

@@ -22,11 +22,14 @@ public class Purchase {
         this.purchasePrice = purchasePrice;
     }
 
+    //Getters
+
+    //Setters
+
     @Override
     public String toString() {
-        return "Purchase{" +
-                "customer=" + customer.getUsername() +
-                ", song=" + song +
-                '}';
+        return " Purchase" +
+                "\n Customer: " + customer.getUsername() +
+                "\n Song: " + song;
     }
 }

@@ -12,8 +12,8 @@ public class Customer extends User {
     private String idNumber;
     private String avatar;
     private double balance;
-    private List<Song> purchasedSongs;
-    private List<Playlist> playlists;
+    private List<Song> purchasedSongs; //Cambiar las List a arraylist
+    private List<Playlist> playlists; //Cambiar las List a arraylist
 
 
     public Customer(
@@ -64,15 +64,14 @@ public class Customer extends User {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "fullName='" + fullName + '\'' +
-                ", birthDate=" + birthDate +
-                ", nationality='" + nationality + '\'' +
-                ", idNumber='" + idNumber + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", balance=" + balance +
-                ", purchasedSongs=" + purchasedSongs +
-                ", playlists=" + playlists +
-                '}';
+        return " Customer" +
+                "\n FullName: " + fullName +
+                "\n BirthDate: " + birthDate +
+                "\n Nationality: " + nationality +
+                "\n Id Number: " + idNumber +
+                "\n Avatar: " + avatar +
+                "\n Balance: " + balance +
+                "\n PurchasedSongs: " + purchasedSongs +
+                "\n Playlists: " + playlists;
     }
 }
