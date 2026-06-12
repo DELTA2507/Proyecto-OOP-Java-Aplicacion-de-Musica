@@ -28,3 +28,4 @@ public class Playlist {
                 "\n (" + songs.size() + " songs)";
     }
 }
+

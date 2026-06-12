@@ -25,3 +25,4 @@ public class Rating {
                 "\n Value: " + value;
     }
 }
+
