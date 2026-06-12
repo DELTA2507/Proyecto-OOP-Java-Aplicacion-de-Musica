@@ -21,4 +21,3 @@ public class PlaybackQueue {
                 "\n Songs: " + songs.size();
     }
 }
-

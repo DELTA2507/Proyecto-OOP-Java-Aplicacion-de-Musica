@@ -75,4 +75,3 @@ public class Customer extends User {
                 "\n Playlists: " + playlists;
     }
 }
-
