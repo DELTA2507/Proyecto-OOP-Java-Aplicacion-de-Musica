@@ -68,16 +68,15 @@ public class Customer extends User {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "\n fullName='" + fullName + '\'' +
-                "\n , birthDate=" + birthDate +
-                "\n , nationality='" + nationality + '\'' +
-                "\n , idNumber='" + idNumber + '\'' +
-                "\n , avatar='" + avatar + '\'' +
-                "\n , balance=" + balance +
-                "\n , purchasedSongs=" + purchasedSongs +
-                "\n , playlists=" + playlists +
-                '}';
+        return " Customer " +
+                "\n Full Name:'" + fullName + '\'' +
+                "\n BirthDate: " + birthDate +
+                "\n Nationality: " + nationality + '\'' +
+                "\n Id Number: " + idNumber + '\'' +
+                "\n Avatar: " + avatar + '\'' +
+                "\n Balance: " + balance +
+                "\n Purchased Songs: " + purchasedSongs +
+                "\n Playlists: " + playlists;
     }
 }
 

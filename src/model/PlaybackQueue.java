@@ -10,7 +10,7 @@ public class PlaybackQueue {
 
     public PlaybackQueue(
             int id,
-            List<Song> songs
+            Playlist playlist
     ) {
         this.id = id;
 
@@ -27,10 +27,7 @@ public class PlaybackQueue {
 
     @Override
     public String toString() {
-        return "PlaybackQueue{" +
-                "songs=" + songs.size() +
-                '}';
+        return " PlaybackQueue " +
+                "\n Songs: " + songs.size();
     }
 }
-
-

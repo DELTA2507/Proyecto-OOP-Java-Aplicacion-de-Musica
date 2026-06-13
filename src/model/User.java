@@ -39,12 +39,11 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + getId() +
-                ", email='" + getEmail() + '\'' +
-                ", username='" + getUsername() + '\'' +
-                ", balance=" + password +
-                '}';
+        return " User " +
+                "\n Id: " + getId() +
+                "\n Email: '" + getEmail() + '\'' +
+                "\n Username: '" + getUsername() + '\'' +
+                "\n Balance: " + password;
     }
 }
 

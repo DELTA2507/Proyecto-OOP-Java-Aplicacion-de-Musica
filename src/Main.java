@@ -91,8 +91,7 @@ void main() {
     ratings.add(rating);
 
     PlaybackQueue queue = new PlaybackQueue(
-            1,
-            playListOne
+            1, playListOne
     );
 
     queues.add(queue);
