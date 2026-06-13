@@ -5,19 +5,19 @@ import java.util.List;
 public class PlaybackQueue {
 
     private int id;
-    private List<Song> songs; //Cambiar las List a ArrayList
+    private Playlist playlist; //Cambiar las List a ArrayList
 
     public PlaybackQueue(
             int id,
-            List<Song> songs
+            Playlist playlist
     ) {
         this.id = id;
-        this.songs = songs;
+        this.playlist= playlist;
     }
 
     @Override
     public String toString() {
         return " Playback Queue" +
-                "\n Songs: " + songs.size();
+                "\n Songs: " + playlist.getSongs().size();
     }
 }

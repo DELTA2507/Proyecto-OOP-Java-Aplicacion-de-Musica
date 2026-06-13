@@ -7,11 +7,11 @@ import model.*;
 void main() {
     List<Admin> admins = new ArrayList<>();
     List<Customer> customers = new ArrayList<>();
-    List<Song> songs = new ArrayList<>();
-    List<Playlist> playlists = new ArrayList<>();
     List<Purchase> purchases = new ArrayList<>();
     List<Rating> ratings = new ArrayList<>();
     List<PlaybackQueue> queues = new ArrayList<>();
+
+    Playlist playListOne = new Playlist(1, "Favorites");
 
     Admin admin = new Admin(
             1,
@@ -61,20 +61,15 @@ void main() {
             6.50
     );
 
-    songs.add(song1);
-    songs.add(song2);
+    playListOne.addSong(song1);
+    playListOne.addSong(song2);
 
-    List<Song> playlistSongs = new ArrayList<>();
-    playlistSongs.add(song1);
-    playlistSongs.add(song2);
-
-    Playlist playlist = new Playlist(
-            1,
-            "My Favorites",
-            playlistSongs
+    Playlist playListTwo = new Playlist(
+            2,
+            "My Favorites"
     );
 
-    playlists.add(playlist);
+    playListTwo.addSong(song2);
 
     Purchase purchase = new Purchase(
             1,
@@ -97,7 +92,7 @@ void main() {
 
     PlaybackQueue queue = new PlaybackQueue(
             1,
-            playlistSongs
+            playListOne
     );
 
     queues.add(queue);
@@ -109,10 +104,10 @@ void main() {
     customers.forEach(System.out::println);
 
     System.out.println("\n===== SONGS =====");
-    songs.forEach(System.out::println);
+    playListOne.getSongs().forEach(System.out::println);
 
     System.out.println("\n===== PLAYLISTS =====");
-    playlists.forEach(System.out::println);
+    System.out.println(playListOne);
 
     System.out.println("\n===== PURCHASES =====");
     purchases.forEach(System.out::println);
