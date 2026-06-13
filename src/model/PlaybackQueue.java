@@ -1,23 +1,34 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaybackQueue {
 
     private int id;
-    private Playlist playlist; //Cambiar las List a ArrayList
+    private List<Song> songs;
 
     public PlaybackQueue(
             int id,
-            Playlist playlist
+            List<Song> songs
     ) {
         this.id = id;
-        this.playlist= playlist;
+
+        if (songs == null) {
+            this.songs = new ArrayList<>();
+        } else {
+            this.songs = songs;
+        }
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
     public String toString() {
-        return " Playback Queue" +
-                "\n Songs: " + playlist.getSongs().size();
+        return "PlaybackQueue{" +
+                "songs=" + songs.size() +
+                '}';
     }
 }
