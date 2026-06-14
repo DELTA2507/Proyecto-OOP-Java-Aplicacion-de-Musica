@@ -5,60 +5,58 @@ import java.util.ArrayList;
 
 public class Playlist {
 
-    private ArrayList<Song> playList = new ArrayList<>();
-
-    public boolean estaVacia() {
-        return this.playList.isEmpty();
-    }
-
+    // ATRIBUTOS
     private int id;
     private String name;
-    private LocalDate creacionPlay;
+    private LocalDate creationDate;
+    private Customer owner;
+    private ArrayList<Song> songList;
 
-    public Playlist(int id, String name) {
+    // CONSTRUCTOR
+    public Playlist(int id, String name, Customer owner) {
         this.id = id;
         this.name = name;
-        this.creacionPlay = LocalDate.now();
+        this.owner = owner;
+        this.creationDate = LocalDate.now();
+        this.songList = new ArrayList<>();
+    }
+
+    // GETTERS
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public LocalDate getCreationDate() { return creationDate; }
+    public Customer getOwner() { return owner; }
+    public ArrayList<Song> getSongs() { return songList; }
+
+    // SETTERS
+    public void setId(int id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
+    public void setOwner(Customer owner) { this.owner = owner; }
+
+    // OTROS MÉTODOS
+    public boolean estaVacia() {
+        return this.songList.isEmpty();
     }
 
     public void addSong(Song song) {
-        playList.add(song);
+        songList.add(song);
     }
 
-    public ArrayList<Song> getSongs() {
-        return playList;
+    public void removeSong(Song song) {
+        // TODO: implementar
     }
 
-    // Getters
-    public int getId() {
-        return id;
+    public double calculateRating() {
+        // TODO: implementar
+        return 0.0;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public LocalDate getCreacionPlay() {
-        return creacionPlay;
-    }
-
-    // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCreacionPlay(LocalDate creacionPlay) {
-        this.creacionPlay = creacionPlay;
-    }
-
+    // TO STRING
     @Override
     public String toString() {
         return " Playlist: " + name +
-                "\n Creación de la playlist: " + creacionPlay +
-                "\n (" + playList.size() + " songs)";
+                "\n Creación de la playlist: " + creationDate +
+                "\n (" + songList.size() + " songs)";
     }
 }

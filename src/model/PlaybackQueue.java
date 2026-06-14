@@ -1,33 +1,109 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class PlaybackQueue {
 
+    // ATRIBUTOS
     private int id;
-    private List<Song> songs;
+    private LinkedList<Song> songs;
+    private int currentIndex;
 
-    public PlaybackQueue(
-            int id,
-            Playlist playlist
-    ) {
+    // CONSTRUCTORES
+    public PlaybackQueue(int id) {
         this.id = id;
+        this.songs = new LinkedList<>();
+        this.currentIndex = -1;
+    }
 
-        if (songs == null) {
-            this.songs = new ArrayList<>();
-        } else {
-            this.songs = songs;
+    public PlaybackQueue(int id, Song song) {
+        this.id = id;
+        this.songs = new LinkedList<>();
+        this.currentIndex = -1;
+        if (song != null) {
+            this.songs.add(song);
+            this.currentIndex = 0;
         }
     }
 
-    public int getId() {
-        return id;
+    public PlaybackQueue(int id, Playlist playlist) {
+        this.id = id;
+        this.songs = new LinkedList<>();
+        this.currentIndex = -1;
+        if (playlist != null && !playlist.getSongs().isEmpty()) {
+            this.songs.addAll(playlist.getSongs());
+            this.currentIndex = 0;
+        }
     }
 
+    // GETTERS
+    public int getId() { return id; }
+    public LinkedList<Song> getSongs() { return songs; }
+    public int getCurrentIndex() { return currentIndex; }
+
+    // SETTERS
+    public void setId(int id) { this.id = id; }
+    public void setSongs(LinkedList<Song> songs) { this.songs = songs; }
+    public void setCurrentIndex(int currentIndex) { this.currentIndex = currentIndex; }
+
+    // OTROS MÉTODOS
+    public Song getCurrentSong() {
+        if (isEmpty() || currentIndex < 0) return null;
+        return songs.get(currentIndex);
+    }
+
+    public Song nextSong() {
+        if (currentIndex < songs.size() - 1) {
+            return songs.get(++currentIndex);
+        }
+        return null; // fin de la queue
+    }
+
+    public Song previousSong() {
+        if (currentIndex > 0) {
+            return songs.get(--currentIndex);
+        }
+        return null; // ya estás en la primera
+    }
+
+    public void addToQueue(Song song) {
+        songs.addLast(song);
+        if (currentIndex == -1) currentIndex = 0;
+    }
+
+    public void removeFromQueue(Song song) {
+        int removedIndex = songs.indexOf(song);
+        if (removedIndex == -1) return;
+        songs.remove(removedIndex);
+        if (removedIndex <= currentIndex) {
+            currentIndex = Math.max(-1, currentIndex - 1);
+        }
+    }
+
+    public void clearQueue() {
+        songs.clear();
+        currentIndex = -1;
+    }
+
+    public boolean isEmpty() {
+        return songs.isEmpty();
+    }
+
+    public boolean hasNext() {
+        return currentIndex < songs.size() - 1;
+    }
+
+    public boolean hasPrevious() {
+        return currentIndex > 0;
+    }
+
+    // TO STRING
     @Override
     public String toString() {
-        return " PlaybackQueue " +
-                "\n Songs: " + songs.size();
+        Song current = getCurrentSong();
+        return " PlaybackQueue" +
+                "\n Songs: " + songs.size() +
+                "\n Current: " + (current != null ? current.getTitle() : "none") +
+                "\n Position: " + (currentIndex + 1) + "/" + songs.size();
     }
 }

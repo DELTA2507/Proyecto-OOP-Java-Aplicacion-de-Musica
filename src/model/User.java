@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDate;
+import java.util.Objects;
 
 public abstract class User {
 
@@ -35,6 +35,10 @@ public abstract class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean validatePassword(String password) {
+        return Objects.equals(password, this.password);
     }
 
     @Override

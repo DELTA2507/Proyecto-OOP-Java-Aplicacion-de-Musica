@@ -11,7 +11,6 @@ void main() {
     List<Rating> ratings = new ArrayList<>();
     List<PlaybackQueue> queues = new ArrayList<>();
 
-    Playlist playListOne = new Playlist(1, "Favorites");
 
     Admin admin = new Admin(
             1,
@@ -61,12 +60,15 @@ void main() {
             6.50
     );
 
+
+    Playlist playListOne = new Playlist(1, "Favorites", customer);
     playListOne.addSong(song1);
     playListOne.addSong(song2);
 
     Playlist playListTwo = new Playlist(
             2,
-            "My Favorites"
+            "My Favorites",
+            customer
     );
 
     playListTwo.addSong(song2);

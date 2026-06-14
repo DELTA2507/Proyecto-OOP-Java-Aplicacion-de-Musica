@@ -22,14 +22,29 @@ public class Purchase {
         this.purchasePrice = purchasePrice;
     }
 
-    //Getters
+    // GETTERS
+    public int getId() { return id; }
+    public Customer getCustomer() { return customer; }
+    public Song getSong() { return song; }
+    public String getPurchaseDate() { return purchaseDate; }
+    public double getPurchasePrice() { return purchasePrice; }
 
-    //Setters
+    // SETTERS
+    public void setId(int id) { this.id = id; }
+    public void setCustomer(Customer customer) { this.customer = customer; }
+    public void setSong(Song song) { this.song = song; }
+    public void setPurchaseDate(String purchaseDate) { this.purchaseDate = purchaseDate; }
+    public void setPurchasePrice(double purchasePrice) { this.purchasePrice = purchasePrice; }
 
+    // METHOD FALTANTE
     @Override
     public String toString() {
-        return " Purchase" +
+        return "===== PURCHASE RECEIPT =====" +
+                "\n ID:       #" + id +
+                "\n Date:     " + purchaseDate +
                 "\n Customer: " + customer.getUsername() +
-                "\n Song: " + song;
+                "\n Song:     " + song.getTitle() + " - " + song.getArtist() +
+                "\n Price:    $" + String.format("%.2f", purchasePrice) +
+                "\n============================";
     }
 }

@@ -35,19 +35,35 @@ public class Customer extends User {
         this.nationality = nationality;
         this.idNumber = idNumber;
         this.avatar = avatar;
-        this.balance = balance;
+        this.balance = 0;
 
         //Inicializar listas
         this.purchasedSongs = new ArrayList<>();
         this.playlists = new ArrayList<>();
     }
 
-    public void buySong(Song song) {
-        purchasedSongs.add(song);
+    public String getFullName() {
+        return fullName;
     }
 
-    public void createPlaylist(Playlist playlist) {
-        playlists.add(playlist);
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public double getBalance() {
+        return balance;
     }
 
     public List<Song> getPurchasedSongs() {
@@ -58,8 +74,37 @@ public class Customer extends User {
         return playlists;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void buySong(Song song) {
+        purchasedSongs.add(song);
+    }
+
+    public void createPlaylist(Playlist playlist) {
+        playlists.add(playlist);
+    }
+
+    public void rateSong(Song song, double rating) {
+        // TODO: implementar
+    }
+
+    public Playlist createPlaylist(String name) {
+        // TODO: implementar
+        return null;
+    }
+
+    public void addSongToPlaylist(Song song, Playlist playlist) {
+        // TODO: implementar
+    }
+
+    public void removeSongFromPlaylist(Song song, Playlist playlist) {
+        // TODO: implementar
+    }
+
+    public void playSong(Song song) {
+        // TODO: implementar
+    }
+
+    public void playPlaylist(Playlist playlist) {
+        // TODO: implementar
     }
 
     public void addBalance(double amount) {
