@@ -17,7 +17,7 @@ public class Admin extends User {
     }
 
     public void deleteSong(int songId) {
-        System.out.println("DELTE SONG");
+        System.out.println("DELETE SONG");
     }
 
     public List<Song> searchSongByName(String name) {
