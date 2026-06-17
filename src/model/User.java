@@ -46,8 +46,7 @@ public abstract class User {
         return " User " +
                 "\n Id: " + getId() +
                 "\n Email: '" + getEmail() + '\'' +
-                "\n Username: '" + getUsername() + '\'' +
-                "\n Balance: " + password;
+                "\n Username: '" + getUsername() + '\'';
     }
 }
 
