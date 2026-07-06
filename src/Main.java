@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.*;
 
-void main() {
+void main() throws IOException {
     List<Admin> admins = new ArrayList<>();
     List<Customer> customers = new ArrayList<>();
     List<Purchase> purchases = new ArrayList<>();
@@ -97,25 +97,26 @@ void main() {
     );
 
     queues.add(queue);
-
-    System.out.println("===== ADMINS =====");
-    admins.forEach(System.out::println);
-
-    System.out.println("\n===== CUSTOMERS =====");
-    customers.forEach(System.out::println);
-
-    System.out.println("\n===== SONGS =====");
-    playListOne.getSongs().forEach(System.out::println);
-
-    System.out.println("\n===== PLAYLISTS =====");
-    System.out.println(playListOne);
-
-    System.out.println("\n===== PURCHASES =====");
-    purchases.forEach(System.out::println);
-
-    System.out.println("\n===== RATINGS =====");
-    ratings.forEach(System.out::println);
-
-    System.out.println("\n===== PLAYBACK QUEUES =====");
-    queues.forEach(System.out::println);
+//        System.out.println("===== ADMINS =====");
+//    admins.forEach(System.out::println);
+//
+//    System.out.println("\n===== CUSTOMERS =====");
+//    customers.forEach(System.out::println);
+//
+//    System.out.println("\n===== SONGS =====");
+//    playListOne.getSongs().forEach(System.out::println);
+//
+//    System.out.println("\n===== PLAYLISTS =====");
+//    System.out.println(playListOne);
+//
+//    System.out.println("\n===== PURCHASES =====");
+//    purchases.forEach(System.out::println);
+//
+//    System.out.println("\n===== RATINGS =====");
+//    ratings.forEach(System.out::println);
+//
+//    System.out.println("\n===== PLAYBACK QUEUES =====");
+//    queues.forEach(System.out::println);
+    Menu menuUno = new Menu();
+    menuUno.iniciarMenu();
 }
