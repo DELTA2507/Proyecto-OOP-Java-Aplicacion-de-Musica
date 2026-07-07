@@ -91,6 +91,7 @@ public class Song {
     @Override
     public String toString() {
         return "====== SONG ======" +
+                "\n Id: " + id +
                 "\n Title:    " + title +
                 "\n Artist:   " + artist +
                 "\n Album:    " + album +

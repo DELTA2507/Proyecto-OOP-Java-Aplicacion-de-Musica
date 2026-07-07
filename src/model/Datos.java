@@ -20,6 +20,36 @@ public class Datos {
         }
     }
 
+    public void deleteSong(int id) {
+        boolean flag = false;
+        for (int i = 0; i < canciones.size(); i++) {
+            if (canciones.get(i).getId() == id){
+                canciones.remove(i);
+                System.out.println("Su canción ha sido eliminada de la base de datos correctamente. ");
+                flag = true;
+                break;
+            }
+        }
+        if (!flag) {
+            System.out.println("No se encontró la canción especificada dentro de la base de datos. ");
+        }
+    }
+
+    public void buscarCancionTitulo(String title) {
+        boolean flag = false;
+        for (int i = 0; i < canciones.size(); i++) {
+            if (canciones.get(i).getTitle().equalsIgnoreCase(title)){
+                System.out.println(canciones.get(i));
+                System.out.println("Su canción " + title + " ha sido hallada dentro de la base de datos. ");
+                flag = true;
+                break;
+            }
+        }
+        if (!flag) {
+            System.out.println("No se encontró la canción especificada dentro de la base de datos. ");
+        }
+    }
+
     public Datos() {
 
         Admin admin = new Admin(

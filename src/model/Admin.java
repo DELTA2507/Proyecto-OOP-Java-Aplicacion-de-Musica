@@ -33,7 +33,7 @@ public class Admin extends User {
         System.out.println("Registre el precio de la canción. ");
         double price = Double.parseDouble(entrada.readLine());
         Song song = new Song (id, title, genre, artist, composer, releaseDate, album, coverImage, price);
-        System.out.println("Su canción" + title + "se ha añadido exitosamente a la base de datos. ");
+        System.out.println("Su canción " + title + " se ha añadido exitosamente a la base de datos. ");
         return song;
     }
 
@@ -67,16 +67,7 @@ public class Admin extends User {
         System.out.println("Registre el nuevo precio de la canción. ");
         double price = Double.parseDouble(entrada.readLine());
         song.setPrice(price);
-        System.out.println("Su canción" + title + "se ha modificado exitosamente dentro de la base de datos. ");
-    }
-
-    public void deleteSong(int songId) {
-        System.out.println("DELETE SONG");
-    }
-
-    public List<Song> searchSongByName(String name) {
-        System.out.println("RETURN SONG");
-        return List.of();
+        System.out.println("Su canción " + title + " se ha modificado exitosamente dentro de la base de datos. ");
     }
 
     @Override

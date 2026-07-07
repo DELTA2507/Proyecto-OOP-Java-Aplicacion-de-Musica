@@ -24,12 +24,12 @@ public class Menu {
             System.out.println("Buen día, bienvenido al menú de su aplicación de música. ");
             System.out.println("Por favor, ingrese un dígito: ");
             System.out.println("1. ===== ADMINS =====");
-            System.out.println("2. \n===== CUSTOMERS =====");
-            System.out.println("3. \n===== SONGS =====");
-            System.out.println("4. \n===== PLAYLISTS =====");
-            System.out.println("5. \n===== PURCHASES =====");
-            System.out.println("6. \n===== PLAYBACK QUEUES =====");
-            System.out.println("7. \n===== Salir de la aplicación. =====");
+            System.out.println("2. ===== CUSTOMERS =====");
+            System.out.println("3. ===== SONGS =====");
+            System.out.println("4. ===== PLAYLISTS =====");
+            System.out.println("5. ===== PURCHASES =====");
+            System.out.println("6. ===== PLAYBACK QUEUES =====");
+            System.out.println("7. ===== Salir de la aplicación. =====");
 
             try {
                 opcion = Integer.parseInt(entrada.readLine());
@@ -79,7 +79,7 @@ public class Menu {
             System.out.println("1. Ingresar canción. ");
             System.out.println("2. Editar canción. ");
             System.out.println("3. Eliminar canción. ");
-            System.out.println("4. Reproducir canción. ");
+            System.out.println("4. Buscar una canción. ");
             System.out.println("5. Salir del menú de administrador. ");
 
             try {
@@ -114,9 +114,14 @@ public class Menu {
                 }
                 case 3 -> {
                     datos.mostrarCanciones();
+                    System.out.println("Escriba el identificador de la canción que desea hallar por favor: ");
+                    int id = Integer.parseInt(entrada.readLine());
+                    datos.deleteSong(id);
                 }
                 case 4 -> {
-
+                    System.out.println("Escriba el título de la canción que desea eliminar por favor: ");
+                    String title = entrada.readLine();
+                    datos.buscarCancionTitulo(title);
                 }
                 case 5 -> {
                     System.out.println("Ha salido del menú de administrador.");
