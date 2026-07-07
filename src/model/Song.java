@@ -83,6 +83,10 @@ public class Song {
         // TODO: implementar
     }
 
+    public void playSong(Song song) {
+        System.out.println("PLAY SONG");
+    }
+
     // TO STRING
     @Override
     public String toString() {

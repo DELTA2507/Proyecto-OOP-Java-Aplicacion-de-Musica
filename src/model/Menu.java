@@ -8,10 +8,15 @@ public class Menu {
 
     private BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
 
+    private Datos datos;
+
+    public Menu(Datos datos) {
+        this.datos = datos;
+    }
 
     public void iniciarMenu() throws IOException {
 
-       BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
 
         int opcion = 0;
 
@@ -86,13 +91,29 @@ public class Menu {
 
             switch (opcionAdmin) {
                 case 1 -> {
-
+                    Song reciente = datos.getAdmins().getFirst().createSong();
+                    datos.getCanciones().add(reciente);
+                    System.out.println("\n");
+                    datos.mostrarCanciones();
                 }
                 case 2 -> {
-
+                    datos.mostrarCanciones();
+                    System.out.println("Escriba el identificador de la canción que desea modificar por favor: ");
+                    boolean flag = false;
+                    int id = Integer.parseInt(entrada.readLine());
+                    for (Song song : datos.getCanciones()) {
+                        if (song.getId() == id){
+                            datos.getAdmins().getFirst().editSong(song);
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (!flag) {
+                        System.out.println("No se encuentra dicha canción dentro de la base de datos. ");
+                    }
                 }
                 case 3 -> {
-
+                    datos.mostrarCanciones();
                 }
                 case 4 -> {
 

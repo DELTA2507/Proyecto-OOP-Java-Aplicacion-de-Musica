@@ -99,10 +99,6 @@ public class Customer extends User {
         // TODO: implementar
     }
 
-    public void playSong(Song song) {
-        // TODO: implementar
-    }
-
     public void playPlaylist(Playlist playlist) {
         // TODO: implementar
     }
