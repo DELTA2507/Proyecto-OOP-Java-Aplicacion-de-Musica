@@ -1,4 +1,7 @@
-package model;
+package view;
+
+import model.Datos;
+import model.Song;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,7 +72,7 @@ public class Menu {
         } while (opcion != 7);
     }
 
-    // Método del menú de administradores.
+    // Method del menú de administradores.
     public void menuAdministrador() throws IOException {
 
         int opcionAdmin = 0;
@@ -130,7 +133,7 @@ public class Menu {
         } while (opcionAdmin != 5);
     }
 
-    // Método del menú de clientes.
+    // Method del menú de clientes.
     public void menuClientes() throws IOException {
 
         int opcionUsuario = 0;
@@ -184,7 +187,7 @@ public class Menu {
         } while (opcionUsuario != 8);
     }
 
-    // Método del menú de canciones.
+    // Method del menú de canciones.
     public void menuCanciones() throws IOException {
 
         int opcionCanciones = 0;
@@ -229,7 +232,7 @@ public class Menu {
         } while (opcionCanciones != 6);
     }
 
-    // Método del menú de playlists.
+    // Method del menú de playlists.
     public void menuPlaylists() throws IOException {
 
         int opcionPlaylists = 0;
@@ -264,7 +267,7 @@ public class Menu {
         } while(opcionPlaylists != 4);
     }
 
-    // Método del menú de compras.
+    // Method del menú de compras.
     public void menuCompras() throws IOException {
 
         int opcionCompras = 0;
@@ -286,7 +289,7 @@ public class Menu {
         } while (opcionCompras != 1);
     }
 
-    // Método del menú de cola de reproducción de la playlist.
+    // Method del menú de cola de reproducción de la playlist.
     public void menuCola() throws IOException {
 
         int opcionCola = 0;

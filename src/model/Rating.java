@@ -1,5 +1,7 @@
 package model;
 
+import model.role.Customer;
+
 public class Rating {
 
     // ATRIBUTOS

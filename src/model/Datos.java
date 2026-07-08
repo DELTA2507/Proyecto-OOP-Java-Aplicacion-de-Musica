@@ -1,5 +1,8 @@
 package model;
 
+import model.role.Admin;
+import model.role.Customer;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +56,6 @@ public class Datos {
     public Datos() {
 
         Admin admin = new Admin(
-                1,
                 "admin@musicapp.com",
                 "admin",
                 "Admin123!"
@@ -77,7 +79,6 @@ public class Datos {
         customers.add(customer);
 
         Song song1 = new Song(
-                1,
                 "Blinding Lights",
                 "Pop",
                 "The Weeknd",
@@ -91,7 +92,6 @@ public class Datos {
         canciones.add(song1);
 
         Song song2 = new Song(
-                2,
                 "Believer",
                 "Rock",
                 "Imagine Dragons",

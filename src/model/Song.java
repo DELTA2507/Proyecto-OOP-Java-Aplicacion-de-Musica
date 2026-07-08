@@ -1,9 +1,11 @@
 package model;
 
+import util.IdGenerator;
+
 public class Song {
 
     // ATRIBUTOS
-    private int id;
+    private String id;
     private String title;
     private String genre;
     private String artist;
@@ -17,10 +19,10 @@ public class Song {
     private int purchaseCount;
 
     // CONSTRUCTOR
-    public Song(int id, String title, String genre, String artist,
+    public Song(String title, String genre, String artist,
                 String composer, String releaseDate, String album,
                 String coverImage, double price) {
-        this.id = id;
+        this.id = IdGenerator.generateUUID();
         this.title = title;
         this.genre = genre;
         this.artist = artist;

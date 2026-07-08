@@ -1,29 +1,27 @@
 package model;
 
+import util.IdGenerator;
+
 import java.util.Objects;
 
 public abstract class User {
 
-    private int id;
+    private String id;
     private String email;
     private String username;
     private String password;
 
-    public User(int id, String email, String username, String password) {
-        this.id = id;
+    public User(String email, String username, String password) {
+        this.id = IdGenerator.generateUUID();
         this.email = email;
         this.username = username;
         this.password = password;
     }
 
-    public int getId() { return id; }
+    public String getId() { return id; }
     public String getEmail() { return email; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setEmail(String email) {
         this.email = email;

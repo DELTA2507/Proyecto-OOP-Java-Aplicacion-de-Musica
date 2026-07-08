@@ -1,4 +1,8 @@
-package model;
+package model.role;
+
+import model.Playlist;
+import model.Song;
+import model.User;
 
 import java.util.ArrayList;
 import java.time.LocalDate;

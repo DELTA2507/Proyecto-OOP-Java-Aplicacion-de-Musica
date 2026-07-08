@@ -1,5 +1,7 @@
 package model;
 
+import model.role.Customer;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
