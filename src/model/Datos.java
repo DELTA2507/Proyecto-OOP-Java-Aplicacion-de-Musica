@@ -26,7 +26,7 @@ public class Datos {
     public void deleteSong(int id) {
         boolean flag = false;
         for (int i = 0; i < canciones.size(); i++) {
-            if (canciones.get(i).getId() == id){
+            if (canciones.get(i).getId().equals(id)){
                 canciones.remove(i);
                 System.out.println("Su canción ha sido eliminada de la base de datos correctamente. ");
                 flag = true;
@@ -104,22 +104,17 @@ public class Datos {
 
         canciones.add(song2);
 
-        Playlist playListOne = new Playlist(1, "Favorites", customer);
+        Playlist playListOne = new Playlist("Favorites", customer);
         conjuntoPlaylists.add(playListOne);
         playListOne.addSong(song1);
         playListOne.addSong(song2);
 
-        Playlist playListTwo = new Playlist(
-                2,
-                "My Favorites",
-                customer
-        );
+        Playlist playListTwo = new Playlist("My Favorites", customer);
         conjuntoPlaylists.add(playListTwo);
 
         playListTwo.addSong(song2);
 
         Purchase purchase = new Purchase(
-                1,
                 customer,
                 song1,
                 "2026-06-03",
@@ -129,7 +124,6 @@ public class Datos {
         purchases.add(purchase);
 
         Rating rating = new Rating(
-                1,
                 customer,
                 song1,
                 5.0
@@ -138,7 +132,7 @@ public class Datos {
         ratings.add(rating);
 
         PlaybackQueue queue = new PlaybackQueue(
-                1, playListOne
+                playListOne
         );
 
         queues.add(queue);

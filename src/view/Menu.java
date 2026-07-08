@@ -105,7 +105,7 @@ public class Menu {
                     boolean flag = false;
                     int id = Integer.parseInt(entrada.readLine());
                     for (Song song : datos.getCanciones()) {
-                        if (song.getId() == id){
+                        if (song.getId().equals(id)){
                             datos.getAdmins().getFirst().editSong(song);
                             flag = true;
                             break;

@@ -1,31 +1,31 @@
 package model;
 
 import model.role.Customer;
+import util.IdGenerator;
 
 public class Rating {
 
     // ATRIBUTOS
-    private int id;
+    private String id;
     private Customer customer;
     private Song song;
     private double value;
 
     // CONSTRUCTOR
-    public Rating(int id, Customer customer, Song song, double value) {
-        this.id = id;
+    public Rating(Customer customer, Song song, double value) {
+        this.id = IdGenerator.generateUUID();
         this.customer = customer;
         this.song = song;
         this.value = value;
     }
 
     // GETTERS
-    public int getId() { return id; }
+    public String getId() { return id; }
     public Customer getCustomer() { return customer; }
     public Song getSong() { return song; }
     public double getValue() { return value; }
 
     // SETTERS
-    public void setId(int id) { this.id = id; }
     public void setCustomer(Customer customer) { this.customer = customer; }
     public void setSong(Song song) { this.song = song; }
     public void setValue(double value) { this.value = value; }

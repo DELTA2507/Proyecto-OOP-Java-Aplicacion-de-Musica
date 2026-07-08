@@ -37,7 +37,7 @@ public class Song {
     }
 
     // GETTERS
-    public int getId() { return id; }
+    public String getId() { return id; }
     public String getTitle() { return title; }
     public String getGenre() { return genre; }
     public String getArtist() { return artist; }
@@ -51,7 +51,6 @@ public class Song {
     public int getPurchaseCount() { return purchaseCount; }
 
     // SETTERS
-    public void setId(int id) { this.id = id; }
     public void setTitle(String title) { this.title = title; }
     public void setGenre(String genre) { this.genre = genre; }
     public void setArtist(String artist) { this.artist = artist; }

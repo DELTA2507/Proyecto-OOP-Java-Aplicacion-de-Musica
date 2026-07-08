@@ -1,23 +1,25 @@
 package model;
 
+import util.IdGenerator;
+
 import java.util.LinkedList;
 
 public class PlaybackQueue {
 
     // ATRIBUTOS
-    private int id;
+    private String id;
     private LinkedList<Song> songs;
     private int currentIndex;
 
     // CONSTRUCTORES
-    public PlaybackQueue(int id) {
-        this.id = id;
+    public PlaybackQueue() {
+        this.id = IdGenerator.generateUUID();
         this.songs = new LinkedList<>();
         this.currentIndex = -1;
     }
 
-    public PlaybackQueue(int id, Song song) {
-        this.id = id;
+    public PlaybackQueue(Song song) {
+        this.id = IdGenerator.generateUUID();
         this.songs = new LinkedList<>();
         this.currentIndex = -1;
         if (song != null) {
@@ -26,8 +28,8 @@ public class PlaybackQueue {
         }
     }
 
-    public PlaybackQueue(int id, Playlist playlist) {
-        this.id = id;
+    public PlaybackQueue(Playlist playlist) {
+        this.id = IdGenerator.generateUUID();
         this.songs = new LinkedList<>();
         this.currentIndex = -1;
         if (playlist != null && !playlist.getSongs().isEmpty()) {
@@ -37,12 +39,11 @@ public class PlaybackQueue {
     }
 
     // GETTERS
-    public int getId() { return id; }
+    public String getId() { return id; }
     public LinkedList<Song> getSongs() { return songs; }
     public int getCurrentIndex() { return currentIndex; }
 
     // SETTERS
-    public void setId(int id) { this.id = id; }
     public void setSongs(LinkedList<Song> songs) { this.songs = songs; }
     public void setCurrentIndex(int currentIndex) { this.currentIndex = currentIndex; }
 

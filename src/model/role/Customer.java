@@ -32,7 +32,7 @@ public class Customer extends User {
             String avatar,
             double balance
     ) {
-        super(id, email, username, password);
+        super(email, username, password);
 
         this.fullName = fullName;
         this.birthDate = birthDate;
