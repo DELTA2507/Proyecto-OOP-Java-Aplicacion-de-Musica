@@ -46,12 +46,25 @@ public class Playlist {
     }
 
     public void removeSong(Song song) {
-        // TODO: implementar
+        if (songList.remove(song)) {
+            System.out.println("La cancion fue eliminada de la playlist.");
+        } else {
+            System.out.println("La cancion no pertenece a esta playlist.");
+        }
     }
 
     public double calculateRating() {
-        // TODO: implementar
-        return 0.0;
+        if (songList.isEmpty()) {
+            return 0;
+        }
+
+        double suma = 0;
+
+        for (Song song : songList) {
+            suma += song.getRatingAverage();
+        }
+
+        return suma / songList.size();
     }
 
     // TO STRING

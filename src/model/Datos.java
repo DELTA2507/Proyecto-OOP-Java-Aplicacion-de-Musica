@@ -17,43 +17,9 @@ public class Datos {
     private ArrayList<Song> canciones = new ArrayList<>();
     private ArrayList<Playlist> conjuntoPlaylists = new ArrayList<>();
 
-    public void mostrarCanciones () {
-        for (Song song : canciones) {
-            System.out.println(song);
-        }
-    }
-
-    public void deleteSong(int id) {
-        boolean flag = false;
-        for (int i = 0; i < canciones.size(); i++) {
-            if (canciones.get(i).getId().equals(id)){
-                canciones.remove(i);
-                System.out.println("Su canción ha sido eliminada de la base de datos correctamente. ");
-                flag = true;
-                break;
-            }
-        }
-        if (!flag) {
-            System.out.println("No se encontró la canción especificada dentro de la base de datos. ");
-        }
-    }
-
-    public void buscarCancionTitulo(String title) {
-        boolean flag = false;
-        for (int i = 0; i < canciones.size(); i++) {
-            if (canciones.get(i).getTitle().equalsIgnoreCase(title)){
-                System.out.println(canciones.get(i));
-                System.out.println("Su canción " + title + " ha sido hallada dentro de la base de datos. ");
-                flag = true;
-                break;
-            }
-        }
-        if (!flag) {
-            System.out.println("No se encontró la canción especificada dentro de la base de datos. ");
-        }
-    }
-
     public Datos() {
+
+        // ADMIN
 
         Admin admin = new Admin(
                 "admin@musicapp.com",
@@ -63,8 +29,9 @@ public class Datos {
 
         admins.add(admin);
 
+        // CUSTOMER
+
         Customer customer = new Customer(
-                1,
                 "customer@email.com",
                 "customer1",
                 "customer123!",
@@ -76,7 +43,7 @@ public class Datos {
                 4.99
         );
 
-        customers.add(customer);
+        // SONGS
 
         Song song1 = new Song(
                 "Blinding Lights",
@@ -104,15 +71,29 @@ public class Datos {
 
         canciones.add(song2);
 
-        Playlist playListOne = new Playlist("Favorites", customer);
-        conjuntoPlaylists.add(playListOne);
+        // PLAYLISTS
+
+        Playlist playListOne = new Playlist(
+                "Favorites",
+                customer
+        );
+
         playListOne.addSong(song1);
         playListOne.addSong(song2);
 
-        Playlist playListTwo = new Playlist("My Favorites", customer);
-        conjuntoPlaylists.add(playListTwo);
+        conjuntoPlaylists.add(playListOne);
+
+        Playlist playListTwo = new Playlist(
+                "My Favorites",
+                customer
+        );
 
         playListTwo.addSong(song2);
+
+        conjuntoPlaylists.add(playListTwo);
+
+
+        // PURCHASE
 
         Purchase purchase = new Purchase(
                 customer,
@@ -123,6 +104,8 @@ public class Datos {
 
         purchases.add(purchase);
 
+        // RATING
+
         Rating rating = new Rating(
                 customer,
                 song1,
@@ -131,14 +114,134 @@ public class Datos {
 
         ratings.add(rating);
 
-        PlaybackQueue queue = new PlaybackQueue(
-                playListOne
-        );
+        // PLAYBACK QUEUE
+
+        PlaybackQueue queue = new PlaybackQueue(playListOne);
 
         queues.add(queue);
     }
 
-    // Getters
+    // MÉTODOS PARA CANCIONES
+
+    public void mostrarCanciones() {
+
+        if (canciones.isEmpty()) {
+            System.out.println("No existen canciones registradas.");
+            return;
+        }
+
+        for (Song song : canciones) {
+            System.out.println(song);
+        }
+    }
+
+    public Song buscarCancionPorId(String id) {
+
+        for (Song song : canciones) {
+            if (song.getId().equals(id)) {
+                return song;
+            }
+        }
+
+        return null;
+    }
+
+    public void buscarCancionTitulo(String title) {
+
+        boolean encontrada = false;
+
+        for (Song song : canciones) {
+
+            if (song.getTitle().equalsIgnoreCase(title)) {
+
+                System.out.println(song);
+
+                encontrada = true;
+                break;
+            }
+        }
+
+        if (!encontrada) {
+            System.out.println("No se encontró la canción.");
+        }
+    }
+
+    public void deleteSong(String id) {
+
+        Song song = buscarCancionPorId(id);
+
+        if (song != null) {
+
+            canciones.remove(song);
+
+            System.out.println("La canción fue eliminada correctamente.");
+
+        } else {
+
+            System.out.println("No se encontró la canción.");
+        }
+    }
+
+    // MÉTODOS PARA PLAYLISTS
+
+    public void mostrarPlaylists() {
+
+        if (conjuntoPlaylists.isEmpty()) {
+
+            System.out.println("No existen playlists registradas.");
+
+            return;
+        }
+
+        for (Playlist playlist : conjuntoPlaylists) {
+            System.out.println(playlist);
+        }
+    }
+
+    public Playlist buscarPlaylistPorId(String id) {
+
+        for (Playlist playlist : conjuntoPlaylists) {
+
+            if (playlist.getId().equals(id)) {
+                return playlist;
+            }
+
+        }
+
+        return null;
+    }
+
+    // MÉTODOS PARA CLIENTES
+
+    public void mostrarClientes() {
+
+        if (customers.isEmpty()) {
+
+            System.out.println("No existen clientes.");
+
+            return;
+        }
+
+        for (Customer customer : customers) {
+            System.out.println(customer);
+        }
+    }
+
+    public Customer buscarClientePorId(String id) {
+
+        for (Customer customer : customers) {
+
+            if (customer.getId().equals(id)) {
+                return customer;
+            }
+
+        }
+
+        return null;
+    }
+
+    // GETTERS
+
     public List<Admin> getAdmins() {
         return admins;
     }
@@ -167,7 +270,8 @@ public class Datos {
         return conjuntoPlaylists;
     }
 
-    // Setters
+    // SETTERS
+
     public void setAdmins(List<Admin> admins) {
         this.admins = admins;
     }

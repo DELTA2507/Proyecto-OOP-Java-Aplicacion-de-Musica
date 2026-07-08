@@ -4,8 +4,8 @@ import model.Playlist;
 import model.Song;
 import model.User;
 
-import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Customer extends User {
@@ -19,9 +19,7 @@ public class Customer extends User {
     private List<Song> purchasedSongs;
     private List<Playlist> playlists;
 
-
     public Customer(
-            int id,
             String email,
             String username,
             String password,
@@ -39,12 +37,14 @@ public class Customer extends User {
         this.nationality = nationality;
         this.idNumber = idNumber;
         this.avatar = avatar;
-        this.balance = 0;
+        this.balance = balance;
 
-        //Inicializar listas
+        // Inicializar listas
         this.purchasedSongs = new ArrayList<>();
         this.playlists = new ArrayList<>();
     }
+
+    // GETTERS
 
     public String getFullName() {
         return fullName;
@@ -78,50 +78,105 @@ public class Customer extends User {
         return playlists;
     }
 
+    // MÉTODOS
+
     public void buySong(Song song) {
-        purchasedSongs.add(song);
+
+        if (!purchasedSongs.contains(song)) {
+
+            purchasedSongs.add(song);
+
+            System.out.println("Canción comprada correctamente.");
+
+        } else {
+
+            System.out.println("Ya compró esta canción.");
+
+        }
     }
 
     public void createPlaylist(Playlist playlist) {
         playlists.add(playlist);
     }
 
-    public void rateSong(Song song, double rating) {
-        // TODO: implementar
-    }
-
     public Playlist createPlaylist(String name) {
-        // TODO: implementar
-        return null;
+
+        Playlist nuevaPlaylist = new Playlist(name, this);
+
+        playlists.add(nuevaPlaylist);
+
+        return nuevaPlaylist;
     }
 
     public void addSongToPlaylist(Song song, Playlist playlist) {
-        // TODO: implementar
+
+        playlist.addSong(song);
+
+        System.out.println("La canción fue agregada a la playlist.");
+
     }
 
     public void removeSongFromPlaylist(Song song, Playlist playlist) {
-        // TODO: implementar
+
+        playlist.removeSong(song);
+
     }
 
     public void playPlaylist(Playlist playlist) {
-        // TODO: implementar
+
+        if (playlist.estaVacia()) {
+
+            System.out.println("La playlist no contiene canciones.");
+
+            return;
+        }
+
+        for (Song song : playlist.getSongs()) {
+
+            song.playSong(song);
+
+        }
+
+    }
+
+    public void rateSong(Song song, double rating) {
+
+        song.addRating(rating);
+
+        System.out.println("La valoración fue registrada correctamente.");
+
     }
 
     public void addBalance(double amount) {
-        this.balance += amount;
+
+        if (amount > 0) {
+
+            this.balance += amount;
+
+            System.out.println("Fondos agregados correctamente.");
+
+        } else {
+
+            System.out.println("El monto debe ser mayor que cero.");
+
+        }
+
     }
+
+    // TO STRING
 
     @Override
     public String toString() {
         return " Customer " +
-                "\n Full Name:'" + fullName + '\'' +
-                "\n BirthDate: " + birthDate +
-                "\n Nationality: " + nationality + '\'' +
-                "\n Id Number: " + idNumber + '\'' +
-                "\n Avatar: " + avatar + '\'' +
-                "\n Balance: " + balance +
-                "\n Purchased Songs: " + purchasedSongs +
-                "\n Playlists: " + playlists;
+                "\n Id: " + getId() +
+                "\n Full Name: " + fullName +
+                "\n Birth Date: " + birthDate +
+                "\n Nationality: " + nationality +
+                "\n Id Number: " + idNumber +
+                "\n Avatar: " + avatar +
+                "\n Balance: $" + balance +
+                "\n Purchased Songs: " + purchasedSongs.size() +
+                "\n Playlists: " + playlists.size();
     }
 }
 

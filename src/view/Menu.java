@@ -1,7 +1,12 @@
 package view;
 
-import model.Datos;
+import model.*;
+import model.role.Customer;
+import model.Purchase;
+import model.PlaybackQueue;
+import model.Playlist;
 import model.Song;
+import model.Datos;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -94,37 +99,48 @@ public class Menu {
 
             switch (opcionAdmin) {
                 case 1 -> {
-                    Song reciente = datos.getAdmins().getFirst().createSong();
+                    Song reciente = datos.getAdmins().get(0).createSong();
+
                     datos.getCanciones().add(reciente);
-                    System.out.println("\n");
+
+                    System.out.println("\nCanción agregada correctamente.\n");
+
                     datos.mostrarCanciones();
                 }
-                case 2 -> {
-                    datos.mostrarCanciones();
-                    System.out.println("Escriba el identificador de la canción que desea modificar por favor: ");
-                    boolean flag = false;
-                    int id = Integer.parseInt(entrada.readLine());
-                    for (Song song : datos.getCanciones()) {
-                        if (song.getId().equals(id)){
-                            datos.getAdmins().getFirst().editSong(song);
-                            flag = true;
-                            break;
-                        }
-                    }
-                    if (!flag) {
-                        System.out.println("No se encuentra dicha canción dentro de la base de datos. ");
+                case 2 -> { datos.mostrarCanciones();
+
+                    System.out.println("Ingrese el identificador de la canción:");
+
+                    String id = entrada.readLine();
+
+                    Song song = datos.buscarCancionPorId(id);
+
+                    if (song != null) {
+
+                        datos.getAdmins().get(0).editSong(song);
+
+                    } else {
+
+                        System.out.println("No se encontró la canción.");
+
                     }
                 }
                 case 3 -> {
                     datos.mostrarCanciones();
-                    System.out.println("Escriba el identificador de la canción que desea hallar por favor: ");
-                    int id = Integer.parseInt(entrada.readLine());
+
+                    System.out.println("Ingrese el identificador de la canción:");
+
+                    String id = entrada.readLine();
+
                     datos.deleteSong(id);
                 }
                 case 4 -> {
-                    System.out.println("Escriba el título de la canción que desea eliminar por favor: ");
-                    String title = entrada.readLine();
-                    datos.buscarCancionTitulo(title);
+
+                    System.out.println("Ingrese el título de la canción:");
+
+                    String titulo = entrada.readLine();
+
+                    datos.buscarCancionTitulo(titulo);
                 }
                 case 5 -> {
                     System.out.println("Ha salido del menú de administrador.");
@@ -158,30 +174,171 @@ public class Menu {
 
             switch (opcionUsuario) {
                 case 1 -> {
+                    System.out.println("Ingrese el nombre de la nueva playlist:");
+
+                    String nombre = entrada.readLine();
+
+                    Customer customer = datos.getCustomers().get(0);
+
+                    Playlist nuevaPlaylist = customer.createPlaylist(nombre);
+
+                    datos.getConjuntoPlaylists().add(nuevaPlaylist);
+
+                    System.out.println("Playlist creada correctamente.");
 
                 }
                 case 2 -> {
+                    datos.mostrarPlaylists();
+
+                    System.out.println("Ingrese el ID de la playlist:");
+
+                    String idPlaylist = entrada.readLine();
+
+                    Playlist playlist = datos.buscarPlaylistPorId(idPlaylist);
+
+                    if (playlist == null) {
+
+                        System.out.println("La playlist no existe.");
+
+                        break;
+                    }
+
+                    datos.mostrarCanciones();
+
+                    System.out.println("Ingrese el ID de la canción:");
+
+                    String idCancion = entrada.readLine();
+
+                    Song song = datos.buscarCancionPorId(idCancion);
+
+                    if (song == null) {
+
+                        System.out.println("La canción no existe.");
+
+                        break;
+                    }
+
+                    Customer customer = datos.getCustomers().get(0);
+
+                    customer.addSongToPlaylist(song, playlist);
 
                 }
                 case 3 -> {
+                    datos.mostrarPlaylists();
+
+                    System.out.println("Ingrese el ID de la playlist:");
+
+                    String idPlaylist = entrada.readLine();
+
+                    Playlist playlist = datos.buscarPlaylistPorId(idPlaylist);
+
+                    if (playlist == null) {
+
+                        System.out.println("La playlist no existe.");
+
+                        break;
+                    }
+
+                    datos.mostrarCanciones();
+
+                    System.out.println("Ingrese el ID de la canción:");
+
+                    String idCancion = entrada.readLine();
+
+                    Song song = datos.buscarCancionPorId(idCancion);
+
+                    if (song == null) {
+
+                        System.out.println("La canción no existe.");
+
+                        break;
+                    }
+
+                    Customer customer = datos.getCustomers().get(0);
+
+                    customer.removeSongFromPlaylist(song, playlist);
 
                 }
                 case 4 -> {
+                    datos.mostrarCanciones();
+
+                    System.out.println("Ingrese el ID de la canción:");
+
+                    String idCancion = entrada.readLine();
+
+                    Song song = datos.buscarCancionPorId(idCancion);
+
+                    if (song != null) {
+
+                        song.playSong(song);
+
+                    } else {
+
+                        System.out.println("La canción no existe.");
+
+                    }
 
                 }
                 case 5 -> {
+                    datos.mostrarPlaylists();
+
+                    System.out.println("Ingrese el ID de la playlist:");
+
+                    String idPlaylist = entrada.readLine();
+
+                    Playlist playlist = datos.buscarPlaylistPorId(idPlaylist);
+
+                    if (playlist == null) {
+
+                        System.out.println("La playlist no existe.");
+
+                        break;
+                    }
+
+                    Customer customer = datos.getCustomers().get(0);
+
+                    customer.playPlaylist(playlist);
 
                 }
 
                 case 6 -> {
+                    Customer customer = datos.getCustomers().get(0);
 
+                    System.out.println("Ingrese el monto que desea agregar:");
+
+                    double monto = Double.parseDouble(entrada.readLine());
+
+                    customer.addBalance(monto);
                 }
 
                 case 7 -> {
+                    datos.mostrarCanciones();
+
+                    System.out.println("Ingrese el ID de la canción:");
+
+                    String idCancion = entrada.readLine();
+
+                    Song song = datos.buscarCancionPorId(idCancion);
+
+                    if (song == null) {
+
+                        System.out.println("La canción no existe.");
+
+                        break;
+                    }
+
+                    System.out.println("Ingrese la valoración (1 a 5):");
+
+                    double valor = Double.parseDouble(entrada.readLine());
+
+                    Customer customer = datos.getCustomers().get(0);
+
+                    customer.rateSong(song, valor);
 
                 }
                 case 8 ->{
                     System.out.println("Ha salido del menú de clientes.");
+
                 } default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
             }
         } while (opcionUsuario != 8);
@@ -252,12 +409,83 @@ public class Menu {
             }
             switch (opcionPlaylists) {
                 case 1 -> {
+                    System.out.println("Ingrese el nombre de la nueva playlist:");
+
+                    String nombre = entrada.readLine();
+
+                    Customer customer = datos.getCustomers().get(0);
+
+                    Playlist nuevaPlaylist = customer.createPlaylist(nombre);
+
+                    datos.getConjuntoPlaylists().add(nuevaPlaylist);
+
+                    System.out.println("Playlist creada correctamente.");
 
                 }
                 case 2 -> {
+                    datos.mostrarPlaylists();
+
+                    System.out.println("Ingrese el ID de la playlist:");
+
+                    String idPlaylist = entrada.readLine();
+
+                    Playlist playlist = datos.buscarPlaylistPorId(idPlaylist);
+
+                    if (playlist == null) {
+
+                        System.out.println("La playlist no existe.");
+
+                        break;
+
+                    }
+
+                    datos.mostrarCanciones();
+
+                    System.out.println("Ingrese el ID de la canción:");
+
+                    String idCancion = entrada.readLine();
+
+                    Song song = datos.buscarCancionPorId(idCancion);
+
+                    if (song == null) {
+
+                        System.out.println("La canción no existe.");
+
+                        break;
+
+                    }
+
+                    playlist.addSong(song);
+
+                    System.out.println("La canción fue agregada correctamente.");
 
                 }
                 case 3 -> {
+                    datos.mostrarPlaylists();
+
+                    System.out.println("Ingrese el ID de la playlist:");
+
+                    String idPlaylist = entrada.readLine();
+
+                    Playlist playlist = datos.buscarPlaylistPorId(idPlaylist);
+
+                    if (playlist == null) {
+
+                        System.out.println("La playlist no existe.");
+
+                        break;
+
+                    }
+
+                    double promedio = playlist.calculateRating();
+
+                    System.out.println("--------------------------------");
+
+                    System.out.println("Playlist: " + playlist.getName());
+
+                    System.out.println("Valoración promedio: " + promedio);
+
+                    System.out.println("--------------------------------");
 
                 }
                 case 4 ->{
@@ -271,9 +499,13 @@ public class Menu {
     public void menuCompras() throws IOException {
 
         int opcionCompras = 0;
+
         do {
-            System.out.println("Buen día, bienvenido al menú de compras. ");
-            System.out.println("1. Salir del menú de compras. ");
+
+            System.out.println("Buen día, bienvenido al menú de compras.");
+            System.out.println("Por favor, ingrese un dígito:");
+            System.out.println("1. Mostrar compras.");
+            System.out.println("2. Salir del menú de compras.");
 
             try {
                 opcionCompras = Integer.parseInt(entrada.readLine());
@@ -281,12 +513,39 @@ public class Menu {
                 System.out.println("El dato ingresado no es válido.");
                 System.out.println(e.getMessage() + "\n");
             }
+
             switch (opcionCompras) {
-                case 1 ->{
+
+                case 1 -> {
+
+                    if (datos.getPurchases().isEmpty()) {
+
+                        System.out.println("No existen compras registradas.");
+
+                    } else {
+
+                        System.out.println("\n===== COMPRAS REGISTRADAS =====");
+
+                        for (Purchase purchase : datos.getPurchases()) {
+                            System.out.println(purchase);
+                        }
+
+                    }
+
+                }
+
+                case 2 -> {
+
                     System.out.println("Ha salido del menú de compras.");
-                } default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
+
+                }
+
+                default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
+
             }
-        } while (opcionCompras != 1);
+
+        } while (opcionCompras != 2);
+
     }
 
     // Method del menú de cola de reproducción de la playlist.
@@ -308,9 +567,53 @@ public class Menu {
             }
             switch (opcionCola) {
                 case 1 -> {
+                    PlaybackQueue queue = datos.getQueues().get(0);
+
+                    if (queue.isEmpty()) {
+
+                        System.out.println("La cola de reproducción está vacía.");
+
+                        break;
+
+                    }
+
+                    Song siguiente = queue.nextSong();
+
+                    if (siguiente != null) {
+
+                        System.out.println("Reproduciendo siguiente canción:");
+                        siguiente.playSong(siguiente);
+
+                    } else {
+
+                        System.out.println("Ya se encuentra en la última canción de la cola.");
+
+                    }
 
                 }
                 case 2 -> {
+                    PlaybackQueue queue = datos.getQueues().get(0);
+
+                    if (queue.isEmpty()) {
+
+                        System.out.println("La cola de reproducción está vacía.");
+
+                        break;
+
+                    }
+
+                    Song anterior = queue.previousSong();
+
+                    if (anterior != null) {
+
+                        System.out.println("Reproduciendo canción anterior:");
+                        anterior.playSong(anterior);
+
+                    } else {
+
+                        System.out.println("Ya se encuentra en la primera canción de la cola.");
+
+                    }
 
                 }
                 case 3 ->{
