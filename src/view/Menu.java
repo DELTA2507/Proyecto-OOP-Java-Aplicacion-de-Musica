@@ -3,6 +3,8 @@ package view;
 import model.Datos;
 import model.Song;
 
+import service.SongService;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,9 +14,11 @@ public class Menu {
     private BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
 
     private Datos datos;
+    private SongService songService;
 
     public Menu(Datos datos) {
         this.datos = datos;
+        this.songService = new SongService(datos);
     }
 
     public void iniciarMenu() throws IOException {
@@ -72,7 +76,8 @@ public class Menu {
         } while (opcion != 7);
     }
 
-    // Method del menú de administradores.
+    // Menú de administradores.
+    // CRUD de Admin Básico
     public void menuAdministrador() throws IOException {
 
         int opcionAdmin = 0;
@@ -80,9 +85,9 @@ public class Menu {
             System.out.println("Buen día, bienvenido al menú de administradores. ");
             System.out.println("Por favor, ingrese un dígito: ");
             System.out.println("1. Ingresar canción. ");
-            System.out.println("2. Editar canción. ");
-            System.out.println("3. Eliminar canción. ");
-            System.out.println("4. Buscar una canción. ");
+            System.out.println("2. Buscar una canción. ");
+            System.out.println("3. Editar canción. ");
+            System.out.println("4. Eliminar canción. ");
             System.out.println("5. Salir del menú de administrador. ");
 
             try {
@@ -93,38 +98,57 @@ public class Menu {
             }
 
             switch (opcionAdmin) {
+                // CREATE Song
                 case 1 -> {
-                    Song reciente = datos.getAdmins().getFirst().createSong();
-                    datos.getCanciones().add(reciente);
-                    System.out.println("\n");
-                    datos.mostrarCanciones();
+                    Song song = leerDatosCancion();
+                    songService.agregarCancion(song);
+
+                    System.out.println("Su canción " + song.getTitle() + " se ha añadido exitosamente.");
+                    System.out.println();
+
+                    mostrarCanciones();
                 }
+                // READ Song
                 case 2 -> {
-                    datos.mostrarCanciones();
-                    System.out.println("Escriba el identificador de la canción que desea modificar por favor: ");
-                    boolean flag = false;
-                    int id = Integer.parseInt(entrada.readLine());
-                    for (Song song : datos.getCanciones()) {
-                        if (song.getId().equals(id)){
-                            datos.getAdmins().getFirst().editSong(song);
-                            flag = true;
-                            break;
-                        }
-                    }
-                    if (!flag) {
-                        System.out.println("No se encuentra dicha canción dentro de la base de datos. ");
-                    }
-                }
-                case 3 -> {
-                    datos.mostrarCanciones();
+                    mostrarCanciones();
                     System.out.println("Escriba el identificador de la canción que desea hallar por favor: ");
-                    int id = Integer.parseInt(entrada.readLine());
-                    datos.deleteSong(id);
+                    String id = entrada.readLine();
+                    boolean eliminada = songService.eliminarPorId(id);
+
+                    if (eliminada) {
+                        System.out.println("Su canción ha sido eliminada correctamente.");
+                    } else {
+                        System.out.println("No se encontró la canción especificada.");
+                    }
                 }
+                // UPDATE Song
+                case 3 -> {
+                    mostrarCanciones();
+                    System.out.println("Escriba el identificador de la canción que desea modificar:");
+                    String id = entrada.readLine();
+
+                    Song nuevaCancion = leerDatosCancion();
+                    boolean editada = songService.editarCancion(id, nuevaCancion);
+
+                    if (editada) {
+                        System.out.println("La canción se ha modificado exitosamente.");
+                    } else {
+                        System.out.println("No se encuentra dicha canción dentro de la base de datos.");
+                    }
+                }
+                // DELETE Song
                 case 4 -> {
-                    System.out.println("Escriba el título de la canción que desea eliminar por favor: ");
-                    String title = entrada.readLine();
-                    datos.buscarCancionTitulo(title);
+                    mostrarCanciones();
+                    System.out.println("Escriba el identificador de la canción que desea eliminar:");
+                    String id = entrada.readLine();
+
+                    boolean eliminada = songService.eliminarPorId(id);
+
+                    if (eliminada) {
+                        System.out.println("Su canción ha sido eliminada correctamente.");
+                    } else {
+                        System.out.println("No se encontró la canción especificada.");
+                    }
                 }
                 case 5 -> {
                     System.out.println("Ha salido del menú de administrador.");
@@ -317,6 +341,40 @@ public class Menu {
                     System.out.println("Ha salido del menú de cola de reproducción de la playlist.");
                 } default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
             }
-        } while(opcionCola != 3);
+        } while (opcionCola != 3);
+    }
+
+    private void mostrarCanciones() {
+        for (Song song : songService.listarCanciones()) {
+            System.out.println(song);
+        }
+    }
+
+    private Song leerDatosCancion() throws IOException {
+        System.out.println("Registre el título de la canción.");
+        String title = entrada.readLine();
+
+        System.out.println("Registre el género musical de la canción.");
+        String genre = entrada.readLine();
+
+        System.out.println("Registre el artista.");
+        String artist = entrada.readLine();
+
+        System.out.println("Registre el compositor.");
+        String composer = entrada.readLine();
+
+        System.out.println("Registre la fecha de estreno de la canción.");
+        String releaseDate = entrada.readLine();
+
+        System.out.println("Registre el álbum al que pertenece la canción.");
+        String album = entrada.readLine();
+
+        System.out.println("Registre la portada de la canción.");
+        String coverImage = entrada.readLine();
+
+        System.out.println("Registre el precio de la canción.");
+        double price = Double.parseDouble(entrada.readLine());
+
+        return new Song(title, genre, artist, composer, releaseDate, album, coverImage, price);
     }
 }

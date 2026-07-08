@@ -14,47 +14,14 @@ public class Datos {
     private List<Purchase> purchases = new ArrayList<>();
     private List<Rating> ratings = new ArrayList<>();
     private List<PlaybackQueue> queues = new ArrayList<>();
-    private ArrayList<Song> canciones = new ArrayList<>();
-    private ArrayList<Playlist> conjuntoPlaylists = new ArrayList<>();
-
-    public void mostrarCanciones () {
-        for (Song song : canciones) {
-            System.out.println(song);
-        }
-    }
-
-    public void deleteSong(int id) {
-        boolean flag = false;
-        for (int i = 0; i < canciones.size(); i++) {
-            if (canciones.get(i).getId().equals(id)){
-                canciones.remove(i);
-                System.out.println("Su canción ha sido eliminada de la base de datos correctamente. ");
-                flag = true;
-                break;
-            }
-        }
-        if (!flag) {
-            System.out.println("No se encontró la canción especificada dentro de la base de datos. ");
-        }
-    }
-
-    public void buscarCancionTitulo(String title) {
-        boolean flag = false;
-        for (int i = 0; i < canciones.size(); i++) {
-            if (canciones.get(i).getTitle().equalsIgnoreCase(title)){
-                System.out.println(canciones.get(i));
-                System.out.println("Su canción " + title + " ha sido hallada dentro de la base de datos. ");
-                flag = true;
-                break;
-            }
-        }
-        if (!flag) {
-            System.out.println("No se encontró la canción especificada dentro de la base de datos. ");
-        }
-    }
+    private List<Song> canciones = new ArrayList<>();
+    private List<Playlist> conjuntoPlaylists = new ArrayList<>();
 
     public Datos() {
+        cargarDatosMock();
+    }
 
+    private void cargarDatosMock() {
         Admin admin = new Admin(
                 "admin@musicapp.com",
                 "admin",
@@ -89,8 +56,6 @@ public class Datos {
                 4.83
         );
 
-        canciones.add(song1);
-
         Song song2 = new Song(
                 "Believer",
                 "Rock",
@@ -102,43 +67,35 @@ public class Datos {
                 6.50
         );
 
+        canciones.add(song1);
         canciones.add(song2);
 
         Playlist playListOne = new Playlist("Favorites", customer);
-        conjuntoPlaylists.add(playListOne);
         playListOne.addSong(song1);
         playListOne.addSong(song2);
 
         Playlist playListTwo = new Playlist("My Favorites", customer);
-        conjuntoPlaylists.add(playListTwo);
-
         playListTwo.addSong(song2);
 
-        Purchase purchase = new Purchase(
+        conjuntoPlaylists.add(playListOne);
+        conjuntoPlaylists.add(playListTwo);
+
+        purchases.add(new Purchase(
                 customer,
                 song1,
                 "2026-06-03",
                 1.99
-        );
+        ));
 
-        purchases.add(purchase);
-
-        Rating rating = new Rating(
+        ratings.add(new Rating(
                 customer,
                 song1,
                 5.0
-        );
+        ));
 
-        ratings.add(rating);
-
-        PlaybackQueue queue = new PlaybackQueue(
-                playListOne
-        );
-
-        queues.add(queue);
+        queues.add(new PlaybackQueue(playListOne));
     }
 
-    // Getters
     public List<Admin> getAdmins() {
         return admins;
     }
@@ -159,40 +116,7 @@ public class Datos {
         return queues;
     }
 
-    public ArrayList<Song> getCanciones() {
+    public List<Song> getCanciones() {
         return canciones;
-    }
-
-    public ArrayList<Playlist> getConjuntoPlaylists() {
-        return conjuntoPlaylists;
-    }
-
-    // Setters
-    public void setAdmins(List<Admin> admins) {
-        this.admins = admins;
-    }
-
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
-    }
-
-    public void setPurchases(List<Purchase> purchases) {
-        this.purchases = purchases;
-    }
-
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
-    }
-
-    public void setQueues(List<PlaybackQueue> queues) {
-        this.queues = queues;
-    }
-
-    public void setCanciones(ArrayList<Song> canciones) {
-        this.canciones = canciones;
-    }
-
-    public void setConjuntoPlaylists(ArrayList<Playlist> conjuntoPlaylists) {
-        this.conjuntoPlaylists = conjuntoPlaylists;
     }
 }
