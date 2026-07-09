@@ -14,13 +14,14 @@ public class Datos {
     private List<Purchase> purchases = new ArrayList<>();
     private List<Rating> ratings = new ArrayList<>();
     private List<PlaybackQueue> queues = new ArrayList<>();
-    private ArrayList<Song> canciones = new ArrayList<>();
-    private ArrayList<Playlist> conjuntoPlaylists = new ArrayList<>();
+    private List<Song> canciones = new ArrayList<>();
+    private List<Playlist> conjuntoPlaylists = new ArrayList<>();
 
     public Datos() {
+        cargarDatosMock();
+    }
 
-        // ADMIN
-
+    private void cargarDatosMock() {
         Admin admin = new Admin(
                 "admin@musicapp.com",
                 "admin",
@@ -28,8 +29,6 @@ public class Datos {
         );
 
         admins.add(admin);
-
-        // CUSTOMER
 
         Customer customer = new Customer(
                 "customer@email.com",
@@ -43,7 +42,7 @@ public class Datos {
                 4.99
         );
 
-        // SONGS
+        customers.add(customer);
 
         Song song1 = new Song(
                 "Blinding Lights",
@@ -56,8 +55,6 @@ public class Datos {
                 4.83
         );
 
-        canciones.add(song1);
-
         Song song2 = new Song(
                 "Believer",
                 "Rock",
@@ -69,9 +66,8 @@ public class Datos {
                 6.50
         );
 
+        canciones.add(song1);
         canciones.add(song2);
-
-        // PLAYLISTS
 
         Playlist playListOne = new Playlist(
                 "Favorites",
@@ -81,8 +77,6 @@ public class Datos {
         playListOne.addSong(song1);
         playListOne.addSong(song2);
 
-        conjuntoPlaylists.add(playListOne);
-
         Playlist playListTwo = new Playlist(
                 "My Favorites",
                 customer
@@ -90,10 +84,8 @@ public class Datos {
 
         playListTwo.addSong(song2);
 
+        conjuntoPlaylists.add(playListOne);
         conjuntoPlaylists.add(playListTwo);
-
-
-        // PURCHASE
 
         Purchase purchase = new Purchase(
                 customer,
@@ -104,8 +96,6 @@ public class Datos {
 
         purchases.add(purchase);
 
-        // RATING
-
         Rating rating = new Rating(
                 customer,
                 song1,
@@ -114,133 +104,10 @@ public class Datos {
 
         ratings.add(rating);
 
-        // PLAYBACK QUEUE
-
         PlaybackQueue queue = new PlaybackQueue(playListOne);
 
         queues.add(queue);
     }
-
-    // MÉTODOS PARA CANCIONES
-
-    public void mostrarCanciones() {
-
-        if (canciones.isEmpty()) {
-            System.out.println("No existen canciones registradas.");
-            return;
-        }
-
-        for (Song song : canciones) {
-            System.out.println(song);
-        }
-    }
-
-    public Song buscarCancionPorId(String id) {
-
-        for (Song song : canciones) {
-            if (song.getId().equals(id)) {
-                return song;
-            }
-        }
-
-        return null;
-    }
-
-    public void buscarCancionTitulo(String title) {
-
-        boolean encontrada = false;
-
-        for (Song song : canciones) {
-
-            if (song.getTitle().equalsIgnoreCase(title)) {
-
-                System.out.println(song);
-
-                encontrada = true;
-                break;
-            }
-        }
-
-        if (!encontrada) {
-            System.out.println("No se encontró la canción.");
-        }
-    }
-
-    public void deleteSong(String id) {
-
-        Song song = buscarCancionPorId(id);
-
-        if (song != null) {
-
-            canciones.remove(song);
-
-            System.out.println("La canción fue eliminada correctamente.");
-
-        } else {
-
-            System.out.println("No se encontró la canción.");
-        }
-    }
-
-    // MÉTODOS PARA PLAYLISTS
-
-    public void mostrarPlaylists() {
-
-        if (conjuntoPlaylists.isEmpty()) {
-
-            System.out.println("No existen playlists registradas.");
-
-            return;
-        }
-
-        for (Playlist playlist : conjuntoPlaylists) {
-            System.out.println(playlist);
-        }
-    }
-
-    public Playlist buscarPlaylistPorId(String id) {
-
-        for (Playlist playlist : conjuntoPlaylists) {
-
-            if (playlist.getId().equals(id)) {
-                return playlist;
-            }
-
-        }
-
-        return null;
-    }
-
-    // MÉTODOS PARA CLIENTES
-
-    public void mostrarClientes() {
-
-        if (customers.isEmpty()) {
-
-            System.out.println("No existen clientes.");
-
-            return;
-        }
-
-        for (Customer customer : customers) {
-            System.out.println(customer);
-        }
-    }
-
-    public Customer buscarClientePorId(String id) {
-
-        for (Customer customer : customers) {
-
-            if (customer.getId().equals(id)) {
-                return customer;
-            }
-
-        }
-
-        return null;
-    }
-
-    // GETTERS
 
     public List<Admin> getAdmins() {
         return admins;
@@ -262,41 +129,11 @@ public class Datos {
         return queues;
     }
 
-    public ArrayList<Song> getCanciones() {
+    public List<Song> getCanciones() {
         return canciones;
     }
 
-    public ArrayList<Playlist> getConjuntoPlaylists() {
+    public List<Playlist> getConjuntoPlaylists() {
         return conjuntoPlaylists;
-    }
-
-    // SETTERS
-
-    public void setAdmins(List<Admin> admins) {
-        this.admins = admins;
-    }
-
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
-    }
-
-    public void setPurchases(List<Purchase> purchases) {
-        this.purchases = purchases;
-    }
-
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
-    }
-
-    public void setQueues(List<PlaybackQueue> queues) {
-        this.queues = queues;
-    }
-
-    public void setCanciones(ArrayList<Song> canciones) {
-        this.canciones = canciones;
-    }
-
-    public void setConjuntoPlaylists(ArrayList<Playlist> conjuntoPlaylists) {
-        this.conjuntoPlaylists = conjuntoPlaylists;
     }
 }

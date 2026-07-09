@@ -31,20 +31,15 @@ public class Customer extends User {
             double balance
     ) {
         super(email, username, password);
-
         this.fullName = fullName;
         this.birthDate = birthDate;
         this.nationality = nationality;
         this.idNumber = idNumber;
         this.avatar = avatar;
         this.balance = balance;
-
-        // Inicializar listas
         this.purchasedSongs = new ArrayList<>();
         this.playlists = new ArrayList<>();
     }
-
-    // GETTERS
 
     public String getFullName() {
         return fullName;
@@ -78,106 +73,67 @@ public class Customer extends User {
         return playlists;
     }
 
-    // MÉTODOS
-
-    public void buySong(Song song) {
-
-        if (!purchasedSongs.contains(song)) {
-
-            purchasedSongs.add(song);
-
-            System.out.println("Canción comprada correctamente.");
-
-        } else {
-
-            System.out.println("Ya compró esta canción.");
-
+    public boolean addBalance(double amount) {
+        if (amount <= 0) {
+            return false;
         }
+
+        balance += amount;
+        return true;
     }
 
-    public void createPlaylist(Playlist playlist) {
+    public boolean deductBalance(double amount) {
+        if (amount <= 0 || balance < amount) {
+            return false;
+        }
+
+        balance -= amount;
+        return true;
+    }
+
+    public boolean hasPurchasedSong(Song song) {
+        if (song == null) {
+            return false;
+        }
+
+        for (Song purchasedSong : purchasedSongs) {
+            if (purchasedSong.getId().equals(song.getId())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean addPurchasedSong(Song song) {
+        if (song == null || hasPurchasedSong(song)) {
+            return false;
+        }
+
+        purchasedSongs.add(song);
+        return true;
+    }
+
+    public boolean addPlaylist(Playlist playlist) {
+        if (playlist == null) {
+            return false;
+        }
+
         playlists.add(playlist);
+        return true;
     }
-
-    public Playlist createPlaylist(String name) {
-
-        Playlist nuevaPlaylist = new Playlist(name, this);
-
-        playlists.add(nuevaPlaylist);
-
-        return nuevaPlaylist;
-    }
-
-    public void addSongToPlaylist(Song song, Playlist playlist) {
-
-        playlist.addSong(song);
-
-        System.out.println("La canción fue agregada a la playlist.");
-
-    }
-
-    public void removeSongFromPlaylist(Song song, Playlist playlist) {
-
-        playlist.removeSong(song);
-
-    }
-
-    public void playPlaylist(Playlist playlist) {
-
-        if (playlist.estaVacia()) {
-
-            System.out.println("La playlist no contiene canciones.");
-
-            return;
-        }
-
-        for (Song song : playlist.getSongs()) {
-
-            song.playSong(song);
-
-        }
-
-    }
-
-    public void rateSong(Song song, double rating) {
-
-        song.addRating(rating);
-
-        System.out.println("La valoración fue registrada correctamente.");
-
-    }
-
-    public void addBalance(double amount) {
-
-        if (amount > 0) {
-
-            this.balance += amount;
-
-            System.out.println("Fondos agregados correctamente.");
-
-        } else {
-
-            System.out.println("El monto debe ser mayor que cero.");
-
-        }
-
-    }
-
-    // TO STRING
 
     @Override
     public String toString() {
-        return " Customer " +
-                "\n Id: " + getId() +
-                "\n Full Name: " + fullName +
-                "\n Birth Date: " + birthDate +
-                "\n Nationality: " + nationality +
-                "\n Id Number: " + idNumber +
-                "\n Avatar: " + avatar +
-                "\n Balance: $" + balance +
-                "\n Purchased Songs: " + purchasedSongs.size() +
-                "\n Playlists: " + playlists.size();
+        return "Customer" +
+                "\nId: " + getId() +
+                "\nFull Name: " + fullName +
+                "\nBirth Date: " + birthDate +
+                "\nNationality: " + nationality +
+                "\nId Number: " + idNumber +
+                "\nAvatar: " + avatar +
+                "\nBalance: $" + String.format("%.2f", balance) +
+                "\nPurchased Songs: " + purchasedSongs.size() +
+                "\nPlaylists: " + playlists.size();
     }
 }
-
-

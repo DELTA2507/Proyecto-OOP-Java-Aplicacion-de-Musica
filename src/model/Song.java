@@ -64,12 +64,19 @@ public class Song {
     public void setPurchaseCount(int purchaseCount) { this.purchaseCount = purchaseCount; }
 
     // OTROS MÉTODOS
-    public void addRating(double rating) {
-        ratingAverage = ((ratingAverage * ratingCount) + rating) / (++ratingCount);
+    public boolean addRating(double rating) {
+        if (rating < 1 || rating > 5) {
+            return false;
+        }
+
+        ratingAverage = ((ratingAverage * ratingCount) + rating) / (ratingCount + 1);
+        ratingCount++;
+
+        return true;
     }
 
-    public void updateRatingAverage() {
-        // TODO: implementar
+    public void updateRatingAverage(double rating) {
+        addRating(rating);
     }
 
     public void incrementPurchase() {
@@ -77,15 +84,15 @@ public class Song {
     }
 
     public void playPreview() {
-        // TODO: implementar
+        System.out.println("Reproduciendo preview de: " + title + " - " + artist);
     }
 
     public void playFull() {
-        // TODO: implementar
+        System.out.println("Reproduciendo canción completa: " + title + " - " + artist);
     }
 
-    public void playSong(Song song) {
-        System.out.println("PLAY SONG");
+    public void playSong() {
+        playFull();
     }
 
     // TO STRING

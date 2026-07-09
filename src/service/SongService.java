@@ -70,4 +70,15 @@ public class SongService {
 
         return true;
     }
+
+    public boolean reproducirPreview(String id) {
+        Song song = buscarPorId(id);
+
+        if (song == null) {
+            return false;
+        }
+
+        song.playPreview();
+        return true;
+    }
 }

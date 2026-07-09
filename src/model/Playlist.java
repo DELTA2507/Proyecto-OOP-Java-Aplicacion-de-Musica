@@ -41,15 +41,39 @@ public class Playlist {
         return this.songList.isEmpty();
     }
 
-    public void addSong(Song song) {
+    public boolean addSong(Song song) {
+        if (song == null) {
+            return false;
+        }
+
+        for (Song currentSong : songList) {
+            if (currentSong.getId().equals(song.getId())) {
+                return false;
+            }
+        }
+
         songList.add(song);
+        return true;
     }
 
-    public void removeSong(Song song) {
-        if (songList.remove(song)) {
-            System.out.println("La cancion fue eliminada de la playlist.");
-        } else {
-            System.out.println("La cancion no pertenece a esta playlist.");
+    public boolean removeSong(Song song) {
+        if (song == null) {
+            return false;
+        }
+
+        return songList.removeIf(currentSong -> currentSong.getId().equals(song.getId()));
+    }
+
+    public void playPlaylist() {
+        if (songList.isEmpty()) {
+            System.out.println("La playlist está vacía.");
+            return;
+        }
+
+        System.out.println("Reproduciendo playlist: " + name);
+
+        for (Song song : songList) {
+            song.playFull();
         }
     }
 
