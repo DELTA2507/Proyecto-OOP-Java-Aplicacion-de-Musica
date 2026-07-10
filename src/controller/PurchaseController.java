@@ -16,4 +16,5 @@ public class PurchaseController {
     public List<Purchase> listarCompras() {
         return purchaseService.listarCompras();
     }
+
 }

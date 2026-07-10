@@ -21,19 +21,22 @@ public class Menu {
     private PlaybackQueueController playbackQueueController;
     private CustomerController customerController;
     private PurchaseController purchaseController;
+    private TopController topController;
 
     public Menu(
             SongController songController,
             PlaylistController playlistController,
             PlaybackQueueController playbackQueueController,
             CustomerController customerController,
-            PurchaseController purchaseController
+            PurchaseController purchaseController,
+            TopController topController
     ) {
         this.songController = songController;
         this.playlistController = playlistController;
         this.playbackQueueController = playbackQueueController;
         this.customerController = customerController;
         this.purchaseController = purchaseController;
+        this.topController = topController;
     }
 
     public void iniciarMenu() throws IOException {
@@ -51,7 +54,8 @@ public class Menu {
             System.out.println("4. ===== PLAYLISTS =====");
             System.out.println("5. ===== PURCHASES =====");
             System.out.println("6. ===== PLAYBACK QUEUES =====");
-            System.out.println("7. ===== Salir de la aplicación. =====");
+            System.out.println("7. ===== TOP 3 =====");
+            System.out.println("8. ===== Salir de la aplicación. =====");
 
             try {
                 opcion = Integer.parseInt(entrada.readLine());
@@ -83,12 +87,16 @@ public class Menu {
                 }
 
                 case 7 -> {
+                    menuTop3();
+                }
+
+                case 8 -> {
                     System.out.println("Ha salido del sistema.");
                     break;
                 }
                 default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
             }
-        } while (opcion != 7);
+        } while (opcion != 8);
     }
 
     // Method del menú de administradores.
@@ -717,5 +725,69 @@ public class Menu {
         for (Playlist playlist : playlistController.listarPlaylists()) {
             System.out.println(playlist);
         }
+    }
+
+    private void menuTop3() {
+
+        int opcionTop = 0;
+
+        do {
+
+            System.out.println("\n========== TOP 3 ==========");
+            System.out.println("1. Top 3 canciones mejor calificadas");
+            System.out.println("2. Top 3 canciones más compradas");
+            System.out.println("3. Top 3 canciones más agregadas a playlists");
+            System.out.println("4. Volver");
+            System.out.print("Seleccione una opción: ");
+
+            try {
+                opcionTop = Integer.parseInt(entrada.readLine());
+
+                switch (opcionTop) {
+
+                    case 1 -> {
+
+                        System.out.println("\n===== TOP 3 MEJOR CALIFICADAS =====");
+
+                        for (Song song : topController.getTopRatedSongs()) {
+                            System.out.println(song);
+                        }
+
+                    }
+
+                    case 2 -> {
+
+                        System.out.println("\n===== TOP 3 MÁS COMPRADAS =====");
+
+                        for (Song song : topController.getMostPurchasedSongs()) {
+                            System.out.println(song);
+                        }
+
+                    }
+
+                    case 3 -> {
+
+                        System.out.println("\n===== TOP 3 MÁS USADAS EN PLAYLISTS =====");
+
+                        for (Song song : topController.getMostUsedInPlaylists()) {
+                            System.out.println(song);
+                        }
+
+                    }
+
+                    case 4 -> System.out.println("Regresando al menú principal...");
+
+                    default -> System.out.println("Opción inválida.");
+
+                }
+
+            } catch (Exception e) {
+
+                System.out.println("Entrada inválida.");
+
+            }
+
+        } while (opcionTop != 4);
+
     }
 }

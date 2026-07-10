@@ -63,4 +63,16 @@ public class PlaybackQueueService {
     public String obtenerEstado() {
         return obtenerColaActual().toString();
     }
+
+    public void agregarPlaylist(model.Playlist playlist) {
+
+        if (playlist == null || playlist.estaVacia()) {
+            return;
+        }
+
+        for (Song song : playlist.getSongs()) {
+            obtenerColaActual().addToQueue(song);
+        }
+
+    }
 }
