@@ -16,4 +16,6 @@ public class PurchaseService {
     public List<Purchase> listarCompras() {
         return datos.getPurchases();
     }
+
+    TopService topService = new TopService(datos);
 }

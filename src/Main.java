@@ -1,36 +1,41 @@
-import model.Datos;
-import view.MainMenuView;
-import controller.*;
-import service.*;
-
 import java.io.IOException;
 
+import service.*;
+import controller.*;
+
+import model.Datos;
+
+import view.Menu;
+
 void main() throws IOException {
+
     Datos datos = new Datos();
 
-    ValidationService validationService = new ValidationService();
-    AuthService authService = new AuthService(datos, validationService);
+    // SERVICES
     SongService songService = new SongService(datos);
     PlaylistService playlistService = new PlaylistService(datos, songService);
     PlaybackQueueService playbackQueueService = new PlaybackQueueService(datos);
-    CustomerService customerService = new CustomerService(datos, songService, playlistService, authService);
+    CustomerService customerService = new CustomerService(datos, songService, playlistService);
     PurchaseService purchaseService = new PurchaseService(datos);
+    TopService topService = new TopService(datos);
 
-    AuthController authController = new AuthController(authService);
+    //  CONTROLLERS
     SongController songController = new SongController(songService);
     PlaylistController playlistController = new PlaylistController(playlistService);
     PlaybackQueueController playbackQueueController = new PlaybackQueueController(playbackQueueService);
     CustomerController customerController = new CustomerController(customerService);
     PurchaseController purchaseController = new PurchaseController(purchaseService);
+    TopController topController = new TopController(topService);
 
-    MainMenuView mainMenuView = new MainMenuView(
-            authController,
+    //  MENU
+    Menu menu = new Menu(
             songController,
             playlistController,
             playbackQueueController,
             customerController,
-            purchaseController
+            purchaseController,
+            topController
     );
 
-    mainMenuView.iniciarMenu();
+    menu.iniciarMenu();
 }

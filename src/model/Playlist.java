@@ -94,8 +94,12 @@ public class Playlist {
     // TO STRING
     @Override
     public String toString() {
-        return " Playlist: " + name +
-                "\n Creación de la playlist: " + creationDate +
-                "\n (" + songList.size() + " songs)";
+        return "===== PLAYLIST =====" +
+                "\nID: " + id +
+                "\nNombre: " + name +
+                "\nFecha de creación: " + creationDate +
+                "\nCantidad de canciones: " + songList.size() +
+                "\nCalificación promedio: " + String.format("%.2f", calculateRating()) +
+                "\n====================";
     }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import model.Song;
 import service.PlaybackQueueService;
+import model.Playlist;
 
 public class PlaybackQueueController {
 
@@ -38,6 +39,8 @@ public class PlaybackQueueController {
     public void agregarCancion(Song song) {
         playbackQueueService.agregarCancion(song);
     }
+
+    public void agregarPlaylist(Playlist playlist) { playbackQueueService.agregarPlaylist(playlist); }
 
     public boolean limpiarCola() {
         return playbackQueueService.limpiarCola();
