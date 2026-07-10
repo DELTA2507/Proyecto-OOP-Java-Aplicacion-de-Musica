@@ -1,12 +1,18 @@
 package view;
 
-import controller.*;
-import model.*;
-import model.role.Customer;
-import model.Purchase;
-import model.PlaybackQueue;
+import controller.AuthController;
+import controller.CustomerController;
+import controller.PlaybackQueueController;
+import controller.PlaylistController;
+import controller.PurchaseController;
+import controller.SongController;
+import controller.TopController;
 import model.Playlist;
+import model.Purchase;
 import model.Song;
+import model.User;
+import model.role.Admin;
+import model.role.Customer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +22,7 @@ public class Menu {
 
     private BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
 
+    private AuthController authController;
     private SongController songController;
     private PlaylistController playlistController;
     private PlaybackQueueController playbackQueueController;
@@ -24,76 +31,65 @@ public class Menu {
     private TopController topController;
 
     public Menu(
+            AuthController authController,
             SongController songController,
             PlaylistController playlistController,
             PlaybackQueueController playbackQueueController,
             CustomerController customerController,
-            PurchaseController purchaseController
+            PurchaseController purchaseController,
             TopController topController
     ) {
+        this.authController = authController;
         this.songController = songController;
         this.playlistController = playlistController;
         this.playbackQueueController = playbackQueueController;
         this.customerController = customerController;
         this.purchaseController = purchaseController;
+        this.topController = topController;
     }
 
     public void iniciarMenu() throws IOException {
 
-        BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
-
         int opcion = 0;
 
         do {
-            System.out.println("Buen día, bienvenido al menú de su aplicación de música. ");
-            System.out.println("Por favor, ingrese un dígito: ");
-            System.out.println("1. ===== ADMINS =====");
-            System.out.println("2. ===== CUSTOMERS =====");
-            System.out.println("3. ===== SONGS =====");
-            System.out.println("4. ===== PLAYLISTS =====");
-            System.out.println("5. ===== PURCHASES =====");
-            System.out.println("6. ===== PLAYBACK QUEUES =====");
-            System.out.println("7. ===== Salir de la aplicación. =====");
+            System.out.println("Buen día, bienvenido a la aplicación de música.");
+            System.out.println("Por favor, ingrese un dígito:");
+            System.out.println("1. Iniciar sesión.");
+            System.out.println("2. Registrar usuario final.");
+            System.out.println("3. Ver Top 3.");
+            System.out.println("4. Salir.");
 
             try {
                 opcion = Integer.parseInt(entrada.readLine());
             } catch (NumberFormatException e) {
                 System.out.println("El dato ingresado no es válido.");
-                System.out.println(e.getMessage() + "\n");
+                opcion = 0;
             }
 
             switch (opcion) {
                 case 1 -> {
-                    menuAdministrador();
+                    iniciarSesion();
                 }
+
                 case 2 -> {
-                    menuClientes();
+                    registrarUsuarioFinal();
                 }
+
                 case 3 -> {
-                    menuCanciones();
+                    menuTop3();
                 }
+
                 case 4 -> {
-                    menuPlaylists();
-                }
-
-                case 5 -> {
-                    menuCompras();
-                }
-
-                case 6 -> {
-                    menuCola();
-                }
-
-                case 7 -> {
                     System.out.println("Ha salido del sistema.");
-                    break;
                 }
-                default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
+
+                default -> System.out.println("Por favor elija una opción válida.");
             }
-        } while (opcion != 7);
+
+        } while (opcion != 4);
     }
 
-    // Method del menú de administradores.
     public void menuAdministrador() throws IOException {
 
         int opcionAdmin = 0;
@@ -105,13 +101,14 @@ public class Menu {
             System.out.println("2. Editar canción.");
             System.out.println("3. Eliminar canción.");
             System.out.println("4. Buscar una canción.");
-            System.out.println("5. Salir del menú de administrador.");
+            System.out.println("5. Cambiar contraseña.");
+            System.out.println("6. Salir del menú de administrador.");
 
             try {
                 opcionAdmin = Integer.parseInt(entrada.readLine());
             } catch (NumberFormatException e) {
                 System.out.println("El dato ingresado no es válido.");
-                System.out.println(e.getMessage() + "\n");
+                opcionAdmin = 0;
             }
 
             switch (opcionAdmin) {
@@ -171,16 +168,19 @@ public class Menu {
                 }
 
                 case 5 -> {
+                    cambiarPassword();
+                }
+
+                case 6 -> {
                     System.out.println("Ha salido del menú de administrador.");
                 }
 
                 default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
             }
 
-        } while (opcionAdmin != 5);
+        } while (opcionAdmin != 6);
     }
 
-    // Method del menú de clientes.
     public void menuClientes() throws IOException {
 
         int opcionUsuario = 0;
@@ -194,13 +194,16 @@ public class Menu {
             System.out.println("4. Reproducir playlist.");
             System.out.println("5. Añadir fondos a la cuenta.");
             System.out.println("6. Ver información del cliente.");
-            System.out.println("7. Salir del menú de clientes.");
+            System.out.println("7. Cambiar contraseña.");
+            System.out.println("8. Ir a tienda de canciones.");
+            System.out.println("9. Ver Top 3.");
+            System.out.println("10. Salir del menú de clientes.");
 
             try {
                 opcionUsuario = Integer.parseInt(entrada.readLine());
             } catch (NumberFormatException e) {
                 System.out.println("El dato ingresado no es válido.");
-                System.out.println(e.getMessage() + "\n");
+                opcionUsuario = 0;
             }
 
             switch (opcionUsuario) {
@@ -234,7 +237,7 @@ public class Menu {
                     if (agregada) {
                         System.out.println("La canción fue agregada a la playlist correctamente.");
                     } else {
-                        System.out.println("No se pudo agregar la canción. Verifique los IDs o si ya existe en la playlist.");
+                        System.out.println("No se pudo agregar la canción. Verifique que la canción exista, esté comprada y que la playlist sea suya.");
                     }
                 }
 
@@ -267,20 +270,26 @@ public class Menu {
                     boolean reproducida = customerController.reproducirPlaylist(idPlaylist);
 
                     if (!reproducida) {
-                        System.out.println("No se pudo reproducir la playlist. Verifique si existe o si está vacía.");
+                        System.out.println("No se pudo reproducir la playlist. Verifique si existe, si es suya o si está vacía.");
                     }
                 }
 
                 case 5 -> {
                     System.out.println("Ingrese el monto que desea agregar:");
-                    double monto = Double.parseDouble(entrada.readLine());
 
-                    boolean agregado = customerController.agregarFondos(monto);
+                    try {
+                        double monto = Double.parseDouble(entrada.readLine());
 
-                    if (agregado) {
-                        System.out.println("Fondos agregados correctamente.");
-                    } else {
-                        System.out.println("El monto debe ser mayor que cero.");
+                        boolean agregado = customerController.agregarFondos(monto);
+
+                        if (agregado) {
+                            System.out.println("Fondos agregados correctamente.");
+                        } else {
+                            System.out.println("El monto debe ser mayor que cero.");
+                        }
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("El monto ingresado no es válido.");
                     }
                 }
 
@@ -295,16 +304,27 @@ public class Menu {
                 }
 
                 case 7 -> {
+                    cambiarPassword();
+                }
+
+                case 8 -> {
+                    menuCanciones();
+                }
+
+                case 9 -> {
+                    menuTop3();
+                }
+
+                case 10 -> {
                     System.out.println("Ha salido del menú de clientes.");
                 }
 
                 default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
             }
 
-        } while (opcionUsuario != 7);
+        } while (opcionUsuario != 10);
     }
 
-    // Method del menú de canciones.
     public void menuCanciones() throws IOException {
 
         int opcionCanciones = 0;
@@ -382,7 +402,7 @@ public class Menu {
                     boolean reproducida = customerController.reproducirCancion(idCancion);
 
                     if (!reproducida) {
-                        System.out.println("La canción no existe.");
+                        System.out.println("No se pudo reproducir la canción. Verifique si existe o si fue comprada.");
                     }
                 }
 
@@ -402,7 +422,7 @@ public class Menu {
                         if (valorada) {
                             System.out.println("La valoración fue registrada correctamente.");
                         } else {
-                            System.out.println("No se pudo registrar la valoración. Verifique el ID o el rango de 1 a 5.");
+                            System.out.println("No se pudo registrar la valoración. Verifique el ID, el rango de 1 a 5 o si la canción fue comprada.");
                         }
 
                     } catch (NumberFormatException e) {
@@ -420,7 +440,6 @@ public class Menu {
         } while (opcionCanciones != 7);
     }
 
-    // Method del menú de playlists.
     public void menuPlaylists() throws IOException {
 
         int opcionPlaylists = 0;
@@ -439,7 +458,7 @@ public class Menu {
                 opcionPlaylists = Integer.parseInt(entrada.readLine());
             } catch (NumberFormatException e) {
                 System.out.println("El dato ingresado no es válido.");
-                System.out.println(e.getMessage() + "\n");
+                opcionPlaylists = 0;
             }
 
             switch (opcionPlaylists) {
@@ -447,17 +466,14 @@ public class Menu {
                     System.out.println("Ingrese el nombre de la nueva playlist:");
                     String nombre = entrada.readLine();
 
-                    Customer customer = customerController.obtenerClienteActual();
+                    Playlist playlist = customerController.crearPlaylist(nombre);
 
-                    if (customer == null) {
-                        System.out.println("No existe un cliente activo.");
-                        break;
+                    if (playlist != null) {
+                        System.out.println("Playlist creada correctamente.");
+                        System.out.println(playlist);
+                    } else {
+                        System.out.println("No se pudo crear la playlist.");
                     }
-
-                    Playlist playlist = playlistController.crearPlaylist(nombre, customer);
-
-                    System.out.println("Playlist creada correctamente.");
-                    System.out.println(playlist);
                 }
 
                 case 2 -> {
@@ -471,12 +487,12 @@ public class Menu {
                     System.out.println("Ingrese el ID de la canción:");
                     String idCancion = entrada.readLine();
 
-                    boolean agregada = playlistController.agregarCancionAPlaylist(idPlaylist, idCancion);
+                    boolean agregada = customerController.agregarCancionAPlaylist(idPlaylist, idCancion);
 
                     if (agregada) {
                         System.out.println("La canción fue agregada correctamente.");
                     } else {
-                        System.out.println("No se pudo agregar la canción. Verifique el ID de la playlist, el ID de la canción o si ya existe en la playlist.");
+                        System.out.println("No se pudo agregar la canción. Verifique que la playlist sea suya y que la canción esté comprada.");
                     }
                 }
 
@@ -491,7 +507,7 @@ public class Menu {
                     System.out.println("Ingrese el ID de la canción:");
                     String idCancion = entrada.readLine();
 
-                    boolean removida = playlistController.removerCancionDePlaylist(idPlaylist, idCancion);
+                    boolean removida = customerController.removerCancionDePlaylist(idPlaylist, idCancion);
 
                     if (removida) {
                         System.out.println("La canción fue eliminada correctamente de la playlist.");
@@ -521,10 +537,10 @@ public class Menu {
                     System.out.println("Ingrese el ID de la playlist:");
                     String idPlaylist = entrada.readLine();
 
-                    boolean reproducida = playlistController.reproducirPlaylist(idPlaylist);
+                    boolean reproducida = customerController.reproducirPlaylist(idPlaylist);
 
                     if (!reproducida) {
-                        System.out.println("No se pudo reproducir la playlist. Verifique si existe o si está vacía.");
+                        System.out.println("No se pudo reproducir la playlist. Verifique si existe, si es suya o si está vacía.");
                     }
                 }
 
@@ -538,7 +554,6 @@ public class Menu {
         } while (opcionPlaylists != 6);
     }
 
-    // Method del menú de compras.
     public void menuCompras() throws IOException {
 
         int opcionCompras = 0;
@@ -579,7 +594,6 @@ public class Menu {
         } while (opcionCompras != 2);
     }
 
-    // Method del menú de cola de reproducción de la playlist.
     public void menuCola() throws IOException {
 
         int opcionCola = 0;
@@ -598,7 +612,7 @@ public class Menu {
                 opcionCola = Integer.parseInt(entrada.readLine());
             } catch (NumberFormatException e) {
                 System.out.println("El dato ingresado no es válido.");
-                System.out.println(e.getMessage() + "\n");
+                opcionCola = 0;
             }
 
             switch (opcionCola) {
@@ -676,7 +690,67 @@ public class Menu {
         } while (opcionCola != 6);
     }
 
+    private void menuTop3() {
+
+        int opcionTop = 0;
+
+        do {
+            System.out.println("\n========== TOP 3 ==========");
+            System.out.println("1. Top 3 canciones mejor calificadas");
+            System.out.println("2. Top 3 canciones más compradas");
+            System.out.println("3. Top 3 canciones más agregadas a playlists");
+            System.out.println("4. Volver");
+            System.out.print("Seleccione una opción: ");
+
+            try {
+                opcionTop = Integer.parseInt(entrada.readLine());
+
+                switch (opcionTop) {
+                    case 1 -> {
+                        System.out.println("\n===== TOP 3 MEJOR CALIFICADAS =====");
+
+                        for (Song song : topController.getTopRatedSongs()) {
+                            System.out.println(song);
+                        }
+                    }
+
+                    case 2 -> {
+                        System.out.println("\n===== TOP 3 MÁS COMPRADAS =====");
+
+                        for (Song song : topController.getMostPurchasedSongs()) {
+                            System.out.println(song);
+                        }
+                    }
+
+                    case 3 -> {
+                        System.out.println("\n===== TOP 3 MÁS USADAS EN PLAYLISTS =====");
+
+                        for (Song song : topController.getMostUsedInPlaylists()) {
+                            System.out.println(song);
+                        }
+                    }
+
+                    case 4 -> {
+                        System.out.println("Regresando al menú principal...");
+                    }
+
+                    default -> System.out.println("Opción inválida.");
+                }
+
+            } catch (Exception e) {
+                System.out.println("Entrada inválida.");
+                opcionTop = 0;
+            }
+
+        } while (opcionTop != 4);
+    }
+
     private void mostrarCanciones() {
+        if (songController.listarCanciones().isEmpty()) {
+            System.out.println("No existen canciones registradas.");
+            return;
+        }
+
         for (Song song : songController.listarCanciones()) {
             System.out.println(song);
         }
@@ -711,77 +785,150 @@ public class Menu {
     }
 
     private void mostrarPlaylists() {
-        if (playlistController.listarPlaylists().isEmpty()) {
-            System.out.println("No existen playlists registradas.");
+        Customer customer = authController.getCustomerActual();
+
+        if (customer == null) {
+            if (playlistController.listarPlaylists().isEmpty()) {
+                System.out.println("No existen playlists registradas.");
+                return;
+            }
+
+            for (Playlist playlist : playlistController.listarPlaylists()) {
+                System.out.println(playlist);
+            }
+
             return;
         }
 
-        for (Playlist playlist : playlistController.listarPlaylists()) {
+        if (playlistController.listarPlaylistsPorCustomer(customer).isEmpty()) {
+            System.out.println("No tienes playlists registradas.");
+            return;
+        }
+
+        for (Playlist playlist : playlistController.listarPlaylistsPorCustomer(customer)) {
             System.out.println(playlist);
         }
     }
 
-    private void menuTop3() {
+    private void iniciarSesion() throws IOException {
+        System.out.println("Ingrese su nombre de usuario:");
+        String username = entrada.readLine();
 
-        int opcionTop = 0;
+        System.out.println("Ingrese su contraseña:");
+        String password = entrada.readLine();
 
-        do {
+        User usuario = authController.login(username, password);
 
-            System.out.println("\n========== TOP 3 ==========");
-            System.out.println("1. Top 3 canciones mejor calificadas");
-            System.out.println("2. Top 3 canciones más compradas");
-            System.out.println("3. Top 3 canciones más agregadas a playlists");
-            System.out.println("4. Volver");
-            System.out.print("Seleccione una opción: ");
+        if (usuario == null) {
+            System.out.println("Credenciales incorrectas.");
+            return;
+        }
 
-            try {
-                opcionTop = Integer.parseInt(entrada.readLine());
+        System.out.println("Inicio de sesión exitoso.");
+        System.out.println("Bienvenido, " + usuario.getUsername());
 
-                switch (opcionTop) {
+        if (usuario instanceof Admin) {
+            menuAdministrador();
+        } else if (usuario instanceof Customer) {
+            mostrarPlaylistsDelClienteActual();
+            menuClientes();
+        }
+    }
 
-                    case 1 -> {
+    private void registrarUsuarioFinal() throws IOException {
+        System.out.println("Ingrese su correo electrónico:");
+        String email = entrada.readLine();
 
-                        System.out.println("\n===== TOP 3 MEJOR CALIFICADAS =====");
+        System.out.println("Ingrese su nombre de usuario:");
+        String username = entrada.readLine();
 
-                        for (Song song : topController.getTopRatedSongs()) {
-                            System.out.println(song);
-                        }
+        System.out.println("Ingrese su contraseña:");
+        String password = entrada.readLine();
 
-                    }
+        System.out.println("Repita su contraseña:");
+        String confirmPassword = entrada.readLine();
 
-                    case 2 -> {
+        System.out.println("Ingrese su nombre completo:");
+        String fullName = entrada.readLine();
 
-                        System.out.println("\n===== TOP 3 MÁS COMPRADAS =====");
+        System.out.println("Ingrese su fecha de nacimiento en formato YYYY-MM-DD:");
+        String birthDateText = entrada.readLine();
 
-                        for (Song song : topController.getMostPurchasedSongs()) {
-                            System.out.println(song);
-                        }
+        System.out.println("Nacionalidades disponibles:");
 
-                    }
+        for (String nacionalidad : authController.getNacionalidadesPermitidas()) {
+            System.out.println("- " + nacionalidad);
+        }
 
-                    case 3 -> {
+        System.out.println("Ingrese su nacionalidad:");
+        String nationality = entrada.readLine();
 
-                        System.out.println("\n===== TOP 3 MÁS USADAS EN PLAYLISTS =====");
+        System.out.println("Ingrese su cédula:");
+        String idNumber = entrada.readLine();
 
-                        for (Song song : topController.getMostUsedInPlaylists()) {
-                            System.out.println(song);
-                        }
+        System.out.println("Ingrese su avatar o presione Enter para usar uno predeterminado:");
+        String avatar = entrada.readLine();
 
-                    }
+        boolean registrado = authController.registrarCustomer(
+                email,
+                username,
+                password,
+                confirmPassword,
+                fullName,
+                birthDateText,
+                nationality,
+                idNumber,
+                avatar
+        );
 
-                    case 4 -> System.out.println("Regresando al menú principal...");
+        if (registrado) {
+            System.out.println("Usuario registrado correctamente.");
+            System.out.println("Se ha aplicado un bono de bienvenida de $4.99.");
+            mostrarPlaylistsDelClienteActual();
+            menuClientes();
+        } else {
+            System.out.println("No se pudo registrar el usuario.");
+            System.out.println(authController.getLastError());
+        }
+    }
 
-                    default -> System.out.println("Opción inválida.");
+    private void mostrarPlaylistsDelClienteActual() {
+        Customer customer = authController.getCustomerActual();
 
-                }
+        if (customer == null) {
+            System.out.println("No existe un cliente activo.");
+            return;
+        }
 
-            } catch (Exception e) {
+        System.out.println("===== TUS PLAYLISTS =====");
 
-                System.out.println("Entrada inválida.");
+        if (playlistController.listarPlaylistsPorCustomer(customer).isEmpty()) {
+            System.out.println("No tienes playlists creadas.");
+            return;
+        }
 
-            }
+        for (Playlist playlist : playlistController.listarPlaylistsPorCustomer(customer)) {
+            System.out.println(playlist);
+        }
+    }
 
-        } while (opcionTop != 4);
+    private void cambiarPassword() throws IOException {
+        System.out.println("Ingrese su contraseña actual:");
+        String passwordActual = entrada.readLine();
 
+        System.out.println("Ingrese su nueva contraseña:");
+        String nuevaPassword = entrada.readLine();
+
+        System.out.println("Repita su nueva contraseña:");
+        String confirmPassword = entrada.readLine();
+
+        boolean cambiada = authController.cambiarPassword(passwordActual, nuevaPassword, confirmPassword);
+
+        if (cambiada) {
+            System.out.println("Contraseña actualizada correctamente.");
+        } else {
+            System.out.println("No se pudo cambiar la contraseña.");
+            System.out.println(authController.getLastError());
+        }
     }
 }

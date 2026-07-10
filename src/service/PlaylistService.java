@@ -18,15 +18,16 @@ public class PlaylistService {
         this.songService = songService;
     }
 
-    // Listar todas las playlists
     public List<Playlist> listarPlaylists() {
         return datos.getConjuntoPlaylists();
     }
 
-    // Listar las playlists de un cliente
     public List<Playlist> listarPlaylists(Customer customer) {
-
         List<Playlist> resultado = new ArrayList<>();
+
+        if (customer == null) {
+            return resultado;
+        }
 
         for (Playlist playlist : datos.getConjuntoPlaylists()) {
             if (playlist.getOwner().equals(customer)) {
@@ -37,9 +38,11 @@ public class PlaylistService {
         return resultado;
     }
 
-    // Crear playlist
-    public Playlist crearPlaylist(String nombre, Customer customer) {
+    public List<Playlist> listarPlaylistsPorCustomer(Customer customer) {
+        return listarPlaylists(customer);
+    }
 
+    public Playlist crearPlaylist(String nombre, Customer customer) {
         if (customer == null || nombre == null || nombre.isBlank()) {
             return null;
         }
@@ -52,11 +55,13 @@ public class PlaylistService {
         return playlist;
     }
 
-    // Buscar por ID
-    public Playlist buscarPorId(String id) {
+    public Playlist buscarPorId(String idPlaylist) {
+        if (idPlaylist == null || idPlaylist.isBlank()) {
+            return null;
+        }
 
         for (Playlist playlist : datos.getConjuntoPlaylists()) {
-            if (playlist.getId().equals(id)) {
+            if (playlist.getId().equals(idPlaylist)) {
                 return playlist;
             }
         }
@@ -64,14 +69,28 @@ public class PlaylistService {
         return null;
     }
 
-    // Buscar por nombre
-    public Playlist buscarPorNombre(String nombre, Customer customer) {
+    public Playlist buscarPorId(String idPlaylist, Customer customer) {
+        if (idPlaylist == null || idPlaylist.isBlank() || customer == null) {
+            return null;
+        }
 
         for (Playlist playlist : datos.getConjuntoPlaylists()) {
+            if (playlist.getId().equals(idPlaylist) && playlist.getOwner().equals(customer)) {
+                return playlist;
+            }
+        }
 
+        return null;
+    }
+
+    public Playlist buscarPorNombre(String nombre, Customer customer) {
+        if (nombre == null || nombre.isBlank() || customer == null) {
+            return null;
+        }
+
+        for (Playlist playlist : datos.getConjuntoPlaylists()) {
             if (playlist.getOwner().equals(customer)
                     && playlist.getName().equalsIgnoreCase(nombre)) {
-
                 return playlist;
             }
         }
@@ -79,9 +98,7 @@ public class PlaylistService {
         return null;
     }
 
-    // Agregar canción
     public boolean agregarCancionAPlaylist(String idPlaylist, String idCancion) {
-
         Playlist playlist = buscarPorId(idPlaylist);
         Song song = songService.buscarPorId(idCancion);
 
@@ -92,9 +109,7 @@ public class PlaylistService {
         return playlist.addSong(song);
     }
 
-    // Remover canción
     public boolean removerCancionDePlaylist(String idPlaylist, String idCancion) {
-
         Playlist playlist = buscarPorId(idPlaylist);
         Song song = songService.buscarPorId(idCancion);
 
@@ -105,9 +120,7 @@ public class PlaylistService {
         return playlist.removeSong(song);
     }
 
-    // Calcular rating
     public double calcularRating(String idPlaylist) {
-
         Playlist playlist = buscarPorId(idPlaylist);
 
         if (playlist == null) {
@@ -117,9 +130,7 @@ public class PlaylistService {
         return playlist.calculateRating();
     }
 
-    // Reproducir playlist
     public boolean reproducirPlaylist(String idPlaylist) {
-
         Playlist playlist = buscarPorId(idPlaylist);
 
         if (playlist == null || playlist.estaVacia()) {

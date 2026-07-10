@@ -26,6 +26,20 @@ public class CustomerService {
         return authService.getCustomerActual();
     }
 
+    public Customer buscarPorId(String idCustomer) {
+        if (idCustomer == null || idCustomer.isBlank()) {
+            return null;
+        }
+
+        for (Customer customer : datos.getCustomers()) {
+            if (customer.getId().equals(idCustomer)) {
+                return customer;
+            }
+        }
+
+        return null;
+    }
+
     public boolean agregarFondos(double monto) {
         Customer customer = obtenerClienteActual();
 
@@ -110,10 +124,15 @@ public class CustomerService {
 
     public boolean agregarCancionAPlaylist(String idPlaylist, String idCancion) {
         Customer customer = obtenerClienteActual();
-        Song song = songService.buscarPorId(idCancion);
-        Playlist playlist = playlistService.buscarPorIdDeCustomer(idPlaylist, customer);
 
-        if (customer == null || song == null || playlist == null) {
+        if (customer == null) {
+            return false;
+        }
+
+        Song song = songService.buscarPorId(idCancion);
+        Playlist playlist = playlistService.buscarPorId(idPlaylist, customer);
+
+        if (song == null || playlist == null) {
             return false;
         }
 
@@ -126,10 +145,15 @@ public class CustomerService {
 
     public boolean removerCancionDePlaylist(String idPlaylist, String idCancion) {
         Customer customer = obtenerClienteActual();
-        Playlist playlist = playlistService.buscarPorIdDeCustomer(idPlaylist, customer);
+
+        if (customer == null) {
+            return false;
+        }
+
+        Playlist playlist = playlistService.buscarPorId(idPlaylist, customer);
         Song song = songService.buscarPorId(idCancion);
 
-        if (customer == null || playlist == null || song == null) {
+        if (playlist == null || song == null) {
             return false;
         }
 
@@ -138,9 +162,14 @@ public class CustomerService {
 
     public boolean reproducirPlaylist(String idPlaylist) {
         Customer customer = obtenerClienteActual();
-        Playlist playlist = playlistService.buscarPorIdDeCustomer(idPlaylist, customer);
 
-        if (customer == null || playlist == null || playlist.estaVacia()) {
+        if (customer == null) {
+            return false;
+        }
+
+        Playlist playlist = playlistService.buscarPorId(idPlaylist, customer);
+
+        if (playlist == null || playlist.estaVacia()) {
             return false;
         }
 
@@ -161,9 +190,14 @@ public class CustomerService {
 
     public double calcularRatingPlaylist(String idPlaylist) {
         Customer customer = obtenerClienteActual();
-        Playlist playlist = playlistService.buscarPorIdDeCustomer(idPlaylist, customer);
 
-        if (customer == null || playlist == null) {
+        if (customer == null) {
+            return -1;
+        }
+
+        Playlist playlist = playlistService.buscarPorId(idPlaylist, customer);
+
+        if (playlist == null) {
             return -1;
         }
 

@@ -51,4 +51,8 @@ public class CustomerController {
     public double calcularRatingPlaylist(String idPlaylist) {
         return customerService.calcularRatingPlaylist(idPlaylist);
     }
+
+    public Customer buscarPorId(String idCustomer) {
+        return customerService.buscarPorId(idCustomer);
+    }
 }
