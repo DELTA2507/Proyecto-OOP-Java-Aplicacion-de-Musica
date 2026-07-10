@@ -5,6 +5,7 @@ import model.Playlist;
 import model.Song;
 import model.role.Customer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaylistService {
@@ -19,6 +20,22 @@ public class PlaylistService {
 
     public List<Playlist> listarPlaylists() {
         return datos.getConjuntoPlaylists();
+    }
+
+    public List<Playlist> listarPlaylistsPorCustomer(Customer customer) {
+        List<Playlist> playlists = new ArrayList<>();
+
+        if (customer == null) {
+            return playlists;
+        }
+
+        for (Playlist playlist : datos.getConjuntoPlaylists()) {
+            if (playlist.getOwner().getId().equals(customer.getId())) {
+                playlists.add(playlist);
+            }
+        }
+
+        return playlists;
     }
 
     public Playlist crearPlaylist(String nombre, Customer customer) {
@@ -36,6 +53,20 @@ public class PlaylistService {
     public Playlist buscarPorId(String id) {
         for (Playlist playlist : datos.getConjuntoPlaylists()) {
             if (playlist.getId().equals(id)) {
+                return playlist;
+            }
+        }
+
+        return null;
+    }
+
+    public Playlist buscarPorIdDeCustomer(String id, Customer customer) {
+        if (customer == null) {
+            return null;
+        }
+
+        for (Playlist playlist : datos.getConjuntoPlaylists()) {
+            if (playlist.getId().equals(id) && playlist.getOwner().getId().equals(customer.getId())) {
                 return playlist;
             }
         }

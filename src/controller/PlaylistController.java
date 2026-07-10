@@ -18,6 +18,10 @@ public class PlaylistController {
         return playlistService.listarPlaylists();
     }
 
+    public List<Playlist> listarPlaylistsPorCustomer(Customer customer) {
+        return playlistService.listarPlaylistsPorCustomer(customer);
+    }
+
     public Playlist crearPlaylist(String nombre, Customer customer) {
         return playlistService.crearPlaylist(nombre, customer);
     }

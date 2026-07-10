@@ -47,4 +47,8 @@ public class CustomerController {
     public boolean valorarCancion(String idCancion, double valor) {
         return customerService.valorarCancion(idCancion, valor);
     }
+
+    public double calcularRatingPlaylist(String idPlaylist) {
+        return customerService.calcularRatingPlaylist(idPlaylist);
+    }
 }

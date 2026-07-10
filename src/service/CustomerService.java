@@ -13,19 +13,17 @@ public class CustomerService {
     private Datos datos;
     private SongService songService;
     private PlaylistService playlistService;
+    private AuthService authService;
 
-    public CustomerService(Datos datos, SongService songService, PlaylistService playlistService) {
+    public CustomerService(Datos datos, SongService songService, PlaylistService playlistService, AuthService authService) {
         this.datos = datos;
         this.songService = songService;
         this.playlistService = playlistService;
+        this.authService = authService;
     }
 
     public Customer obtenerClienteActual() {
-        if (datos.getCustomers().isEmpty()) {
-            return null;
-        }
-
-        return datos.getCustomers().get(0);
+        return authService.getCustomerActual();
     }
 
     public boolean agregarFondos(double monto) {
@@ -69,17 +67,6 @@ public class CustomerService {
         return true;
     }
 
-    public boolean valorarCancion(String idCancion, double valor) {
-        Customer customer = obtenerClienteActual();
-        Song song = songService.buscarPorId(idCancion);
-
-        if (customer == null || song == null) {
-            return false;
-        }
-
-        return song.addRating(valor);
-    }
-
     public boolean reproducirCancion(String idCancion) {
         Customer customer = obtenerClienteActual();
         Song song = songService.buscarPorId(idCancion);
@@ -88,8 +75,27 @@ public class CustomerService {
             return false;
         }
 
-        song.playSong();
+        if (!customer.hasPurchasedSong(song)) {
+            return false;
+        }
+
+        song.playFull();
         return true;
+    }
+
+    public boolean valorarCancion(String idCancion, double valor) {
+        Customer customer = obtenerClienteActual();
+        Song song = songService.buscarPorId(idCancion);
+
+        if (customer == null || song == null) {
+            return false;
+        }
+
+        if (!customer.hasPurchasedSong(song)) {
+            return false;
+        }
+
+        return song.addRating(valor);
     }
 
     public Playlist crearPlaylist(String nombre) {
@@ -103,14 +109,64 @@ public class CustomerService {
     }
 
     public boolean agregarCancionAPlaylist(String idPlaylist, String idCancion) {
-        return playlistService.agregarCancionAPlaylist(idPlaylist, idCancion);
+        Customer customer = obtenerClienteActual();
+        Song song = songService.buscarPorId(idCancion);
+        Playlist playlist = playlistService.buscarPorIdDeCustomer(idPlaylist, customer);
+
+        if (customer == null || song == null || playlist == null) {
+            return false;
+        }
+
+        if (!customer.hasPurchasedSong(song)) {
+            return false;
+        }
+
+        return playlist.addSong(song);
     }
 
     public boolean removerCancionDePlaylist(String idPlaylist, String idCancion) {
-        return playlistService.removerCancionDePlaylist(idPlaylist, idCancion);
+        Customer customer = obtenerClienteActual();
+        Playlist playlist = playlistService.buscarPorIdDeCustomer(idPlaylist, customer);
+        Song song = songService.buscarPorId(idCancion);
+
+        if (customer == null || playlist == null || song == null) {
+            return false;
+        }
+
+        return playlist.removeSong(song);
     }
 
     public boolean reproducirPlaylist(String idPlaylist) {
-        return playlistService.reproducirPlaylist(idPlaylist);
+        Customer customer = obtenerClienteActual();
+        Playlist playlist = playlistService.buscarPorIdDeCustomer(idPlaylist, customer);
+
+        if (customer == null || playlist == null || playlist.estaVacia()) {
+            return false;
+        }
+
+        playlist.playPlaylist();
+        return true;
+    }
+
+    public boolean tieneCancionComprada(String idCancion) {
+        Customer customer = obtenerClienteActual();
+        Song song = songService.buscarPorId(idCancion);
+
+        if (customer == null || song == null) {
+            return false;
+        }
+
+        return customer.hasPurchasedSong(song);
+    }
+
+    public double calcularRatingPlaylist(String idPlaylist) {
+        Customer customer = obtenerClienteActual();
+        Playlist playlist = playlistService.buscarPorIdDeCustomer(idPlaylist, customer);
+
+        if (customer == null || playlist == null) {
+            return -1;
+        }
+
+        return playlist.calculateRating();
     }
 }
