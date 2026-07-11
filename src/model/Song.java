@@ -4,7 +4,6 @@ import util.IdGenerator;
 
 public class Song {
 
-    // ATRIBUTOS
     private String id;
     private String title;
     private String genre;
@@ -18,7 +17,6 @@ public class Song {
     private int ratingCount;
     private int purchaseCount;
 
-    // CONSTRUCTOR
     public Song(String title, String genre, String artist,
                 String composer, String releaseDate, String album,
                 String coverImage, double price) {
@@ -28,15 +26,14 @@ public class Song {
         this.artist = artist;
         this.composer = composer;
         this.releaseDate = releaseDate;
-        this.album = album;
-        this.coverImage = coverImage;
+        setAlbum(album);
+        setCoverImage(coverImage);
         this.price = price;
         this.ratingAverage = 0.0;
         this.ratingCount = 0;
         this.purchaseCount = 0;
     }
 
-    // GETTERS
     public String getId() { return id; }
     public String getTitle() { return title; }
     public String getGenre() { return genre; }
@@ -50,20 +47,33 @@ public class Song {
     public int getRatingCount() { return ratingCount; }
     public int getPurchaseCount() { return purchaseCount; }
 
-    // SETTERS
     public void setTitle(String title) { this.title = title; }
     public void setGenre(String genre) { this.genre = genre; }
     public void setArtist(String artist) { this.artist = artist; }
     public void setComposer(String composer) { this.composer = composer; }
     public void setReleaseDate(String releaseDate) { this.releaseDate = releaseDate; }
-    public void setAlbum(String album) { this.album = album; }
-    public void setCoverImage(String coverImage) { this.coverImage = coverImage; }
+
+    public void setAlbum(String album) {
+        if (album == null || album.isBlank()) {
+            this.album = "Sin álbum";
+        } else {
+            this.album = album;
+        }
+    }
+
+    public void setCoverImage(String coverImage) {
+        if (coverImage == null || coverImage.isBlank()) {
+            this.coverImage = "default_cover.png";
+        } else {
+            this.coverImage = coverImage;
+        }
+    }
+
     public void setPrice(double price) { this.price = price; }
     public void setRatingAverage(double ratingAverage) { this.ratingAverage = ratingAverage; }
     public void setRatingCount(int ratingCount) { this.ratingCount = ratingCount; }
     public void setPurchaseCount(int purchaseCount) { this.purchaseCount = purchaseCount; }
 
-    // OTROS MÉTODOS
     public boolean addRating(double rating) {
         if (rating < 1 || rating > 5) {
             return false;
@@ -95,18 +105,20 @@ public class Song {
         playFull();
     }
 
-    // TO STRING
     @Override
     public String toString() {
         return "====== SONG ======" +
-                "\n Id: " + id +
-                "\n Title:    " + title +
-                "\n Artist:   " + artist +
-                "\n Album:    " + album +
-                "\n Genre:    " + genre +
-                "\n Released: " + releaseDate +
-                "\n Price:    $" + String.format("%.2f", price) +
-                "\n Rating:   " + String.format("%.1f", ratingAverage) + " (" + ratingCount + " reviews)" +
+                "\nId: " + id +
+                "\nTitle:    " + title +
+                "\nGenre:    " + genre +
+                "\nArtist:   " + artist +
+                "\nComposer: " + composer +
+                "\nReleased: " + releaseDate +
+                "\nAlbum:    " + album +
+                "\nCover:    " + coverImage +
+                "\nPrice:    $" + String.format("%.2f", price) +
+                "\nRating:   " + String.format("%.1f", ratingAverage) + " (" + ratingCount + " reviews)" +
+                "\nPurchases: " + purchaseCount +
                 "\n==================";
     }
 }

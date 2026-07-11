@@ -3,6 +3,7 @@ package service;
 import model.Datos;
 import model.Song;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SongService {
@@ -22,6 +23,10 @@ public class SongService {
     }
 
     public Song buscarPorId(String id) {
+        if (id == null || id.isBlank()) {
+            return null;
+        }
+
         for (Song song : datos.getCanciones()) {
             if (song.getId().equals(id)) {
                 return song;
@@ -32,6 +37,10 @@ public class SongService {
     }
 
     public Song buscarPorTitulo(String title) {
+        if (title == null || title.isBlank()) {
+            return null;
+        }
+
         for (Song song : datos.getCanciones()) {
             if (song.getTitle().equalsIgnoreCase(title)) {
                 return song;
@@ -39,6 +48,38 @@ public class SongService {
         }
 
         return null;
+    }
+
+    public List<Song> buscarPorGenero(String genre) {
+        List<Song> resultado = new ArrayList<>();
+
+        if (genre == null || genre.isBlank()) {
+            return resultado;
+        }
+
+        for (Song song : datos.getCanciones()) {
+            if (song.getGenre().equalsIgnoreCase(genre)) {
+                resultado.add(song);
+            }
+        }
+
+        return resultado;
+    }
+
+    public List<Song> buscarPorArtista(String artist) {
+        List<Song> resultado = new ArrayList<>();
+
+        if (artist == null || artist.isBlank()) {
+            return resultado;
+        }
+
+        for (Song song : datos.getCanciones()) {
+            if (song.getArtist().equalsIgnoreCase(artist)) {
+                resultado.add(song);
+            }
+        }
+
+        return resultado;
     }
 
     public boolean eliminarPorId(String id) {

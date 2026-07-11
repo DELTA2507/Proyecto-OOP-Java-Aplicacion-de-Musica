@@ -17,6 +17,7 @@ import model.role.Customer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class Menu {
 
@@ -154,17 +155,7 @@ public class Menu {
                 }
 
                 case 4 -> {
-                    System.out.println("Escriba el título de la canción que desea buscar:");
-                    String title = entrada.readLine();
-
-                    Song song = songController.buscarPorTitulo(title);
-
-                    if (song != null) {
-                        System.out.println(song);
-                        System.out.println("Su canción " + title + " ha sido hallada.");
-                    } else {
-                        System.out.println("No se encontró la canción especificada.");
-                    }
+                    menuBusquedaCanciones();
                 }
 
                 case 5 -> {
@@ -186,18 +177,18 @@ public class Menu {
         int opcionUsuario = 0;
 
         do {
-            System.out.println("Buen día, bienvenido al menú de clientes.");
-            System.out.println("Por favor, ingrese un dígito:");
             System.out.println("1. Crear una nueva playlist.");
             System.out.println("2. Añadir canción a una playlist.");
             System.out.println("3. Remover canción de una playlist.");
             System.out.println("4. Reproducir playlist.");
-            System.out.println("5. Añadir fondos a la cuenta.");
-            System.out.println("6. Ver información del cliente.");
-            System.out.println("7. Cambiar contraseña.");
-            System.out.println("8. Ir a tienda de canciones.");
-            System.out.println("9. Ver Top 3.");
-            System.out.println("10. Salir del menú de clientes.");
+            System.out.println("5. Calcular valoración de playlist.");
+            System.out.println("6. Añadir fondos a la cuenta.");
+            System.out.println("7. Ver información del cliente.");
+            System.out.println("8. Cambiar contraseña.");
+            System.out.println("9. Ir a tienda de canciones.");
+            System.out.println("10. Ver Top 3.");
+            System.out.println("11. Buscar playlist por nombre.");
+            System.out.println("12. Salir del menú de clientes.");
 
             try {
                 opcionUsuario = Integer.parseInt(entrada.readLine());
@@ -275,6 +266,21 @@ public class Menu {
                 }
 
                 case 5 -> {
+                    mostrarPlaylists();
+
+                    System.out.println("Ingrese el ID de la playlist:");
+                    String idPlaylist = entrada.readLine();
+
+                    double promedio = customerController.calcularRatingPlaylist(idPlaylist);
+
+                    if (promedio == -1) {
+                        System.out.println("La playlist no existe o no pertenece al cliente actual.");
+                    } else {
+                        System.out.println("Valoración promedio: " + String.format("%.1f", promedio));
+                    }
+                }
+
+                case 6 -> {
                     System.out.println("Ingrese el monto que desea agregar:");
 
                     try {
@@ -293,7 +299,7 @@ public class Menu {
                     }
                 }
 
-                case 6 -> {
+                case 7 -> {
                     Customer customer = customerController.obtenerClienteActual();
 
                     if (customer != null) {
@@ -303,26 +309,30 @@ public class Menu {
                     }
                 }
 
-                case 7 -> {
+                case 8 -> {
                     cambiarPassword();
                 }
 
-                case 8 -> {
+                case 9 -> {
                     menuCanciones();
                 }
 
-                case 9 -> {
+                case 10 -> {
                     menuTop3();
                 }
 
-                case 10 -> {
+                case 11 -> {
+                    buscarPlaylistPorNombre();
+                }
+
+                case 12 -> {
                     System.out.println("Ha salido del menú de clientes.");
                 }
 
                 default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
             }
 
-        } while (opcionUsuario != 10);
+        } while (opcionUsuario != 12);
     }
 
     public void menuCanciones() throws IOException {
@@ -333,7 +343,7 @@ public class Menu {
             System.out.println("Buen día, bienvenido a la tienda de canciones.");
             System.out.println("Por favor, ingrese un dígito:");
             System.out.println("1. Mostrar canciones disponibles.");
-            System.out.println("2. Buscar canción por título.");
+            System.out.println("2. Buscar canciones.");
             System.out.println("3. Comprar canción.");
             System.out.println("4. Reproducir preview de la canción.");
             System.out.println("5. Reproducir canción.");
@@ -353,16 +363,7 @@ public class Menu {
                 }
 
                 case 2 -> {
-                    System.out.println("Ingrese el título de la canción:");
-                    String title = entrada.readLine();
-
-                    Song song = songController.buscarPorTitulo(title);
-
-                    if (song != null) {
-                        System.out.println(song);
-                    } else {
-                        System.out.println("No se encontró la canción.");
-                    }
+                    menuBusquedaCanciones();
                 }
 
                 case 3 -> {
@@ -452,7 +453,8 @@ public class Menu {
             System.out.println("3. Remover canción de una playlist.");
             System.out.println("4. Calcular valoración de una playlist.");
             System.out.println("5. Reproducir playlist.");
-            System.out.println("6. Salir del menú de playlists.");
+            System.out.println("6. Buscar playlist por nombre.");
+            System.out.println("7. Salir del menú de playlists.");
 
             try {
                 opcionPlaylists = Integer.parseInt(entrada.readLine());
@@ -522,10 +524,10 @@ public class Menu {
                     System.out.println("Ingrese el ID de la playlist:");
                     String idPlaylist = entrada.readLine();
 
-                    double promedio = playlistController.calcularRating(idPlaylist);
+                    double promedio = customerController.calcularRatingPlaylist(idPlaylist);
 
                     if (promedio == -1) {
-                        System.out.println("La playlist no existe.");
+                        System.out.println("La playlist no existe o no pertenece al cliente actual.");
                     } else {
                         System.out.println("Valoración promedio: " + String.format("%.1f", promedio));
                     }
@@ -545,13 +547,17 @@ public class Menu {
                 }
 
                 case 6 -> {
+                    buscarPlaylistPorNombre();
+                }
+
+                case 7 -> {
                     System.out.println("Ha salido del menú de playlists.");
                 }
 
                 default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
             }
 
-        } while (opcionPlaylists != 6);
+        } while (opcionPlaylists != 7);
     }
 
     public void menuCompras() throws IOException {
@@ -929,6 +935,97 @@ public class Menu {
         } else {
             System.out.println("No se pudo cambiar la contraseña.");
             System.out.println(authController.getLastError());
+        }
+    }
+
+    private void menuBusquedaCanciones() throws IOException {
+
+        int opcionBusqueda = 0;
+
+        do {
+            System.out.println("===== BÚSQUEDA DE CANCIONES =====");
+            System.out.println("1. Buscar por título.");
+            System.out.println("2. Buscar por género.");
+            System.out.println("3. Buscar por artista.");
+            System.out.println("4. Volver.");
+
+            try {
+                opcionBusqueda = Integer.parseInt(entrada.readLine());
+            } catch (NumberFormatException e) {
+                System.out.println("El dato ingresado no es válido.");
+                opcionBusqueda = 0;
+            }
+
+            switch (opcionBusqueda) {
+                case 1 -> {
+                    System.out.println("Ingrese el título de la canción:");
+                    String title = entrada.readLine();
+
+                    Song song = songController.buscarPorTitulo(title);
+
+                    if (song != null) {
+                        System.out.println(song);
+                    } else {
+                        System.out.println("No se encontró ninguna canción con ese título.");
+                    }
+                }
+
+                case 2 -> {
+                    System.out.println("Ingrese el género musical:");
+                    String genre = entrada.readLine();
+
+                    List<Song> canciones = songController.buscarPorGenero(genre);
+
+                    mostrarResultadoCanciones(canciones);
+                }
+
+                case 3 -> {
+                    System.out.println("Ingrese el nombre del artista:");
+                    String artist = entrada.readLine();
+
+                    List<Song> canciones = songController.buscarPorArtista(artist);
+
+                    mostrarResultadoCanciones(canciones);
+                }
+
+                case 4 -> {
+                    System.out.println("Regresando al menú anterior.");
+                }
+
+                default -> System.out.println("Por favor elija una opción válida.");
+            }
+
+        } while (opcionBusqueda != 4);
+    }
+
+    private void mostrarResultadoCanciones(List<Song> canciones) {
+        if (canciones == null || canciones.isEmpty()) {
+            System.out.println("No se encontraron canciones.");
+            return;
+        }
+
+        for (Song song : canciones) {
+            System.out.println(song);
+        }
+    }
+
+    private void buscarPlaylistPorNombre() throws IOException {
+        Customer customer = authController.getCustomerActual();
+
+        if (customer == null) {
+            System.out.println("No existe un cliente activo.");
+            return;
+        }
+
+        System.out.println("Ingrese el nombre de la playlist:");
+        String nombre = entrada.readLine();
+
+        Playlist playlist = playlistController.buscarPorNombre(nombre, customer);
+
+        if (playlist != null) {
+            System.out.println(playlist);
+        } else {
+            System.out.println("No se encontró una playlist con ese nombre.");
         }
     }
 }

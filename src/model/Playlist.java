@@ -8,37 +8,32 @@ import java.util.ArrayList;
 
 public class Playlist {
 
-    // ATRIBUTOS
     private String id;
     private String name;
     private LocalDate creationDate;
     private Customer owner;
     private ArrayList<Song> songList;
 
-    // CONSTRUCTOR
     public Playlist(String name, Customer owner) {
-        this.id = IdGenerator.generateUUID();;
+        this.id = IdGenerator.generateUUID();
         this.name = name;
         this.owner = owner;
         this.creationDate = LocalDate.now();
         this.songList = new ArrayList<>();
     }
 
-    // GETTERS
     public String getId() { return id; }
     public String getName() { return name; }
     public LocalDate getCreationDate() { return creationDate; }
     public Customer getOwner() { return owner; }
     public ArrayList<Song> getSongs() { return songList; }
 
-    // SETTERS
     public void setName(String name) { this.name = name; }
     public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
     public void setOwner(Customer owner) { this.owner = owner; }
 
-    // OTROS MÉTODOS
     public boolean estaVacia() {
-        return this.songList.isEmpty();
+        return songList.isEmpty();
     }
 
     public boolean addSong(Song song) {
@@ -83,15 +78,36 @@ public class Playlist {
         }
 
         double suma = 0;
+        int cancionesConRating = 0;
 
         for (Song song : songList) {
-            suma += song.getRatingAverage();
+            if (song.getRatingCount() > 0) {
+                suma += song.getRatingAverage();
+                cancionesConRating++;
+            }
         }
 
-        return suma / songList.size();
+        if (cancionesConRating == 0) {
+            return 0;
+        }
+
+        return suma / cancionesConRating;
     }
 
-    // TO STRING
+    private String obtenerCancionesComoTexto() {
+        if (songList.isEmpty()) {
+            return "Sin canciones";
+        }
+
+        String resultado = "";
+
+        for (Song song : songList) {
+            resultado += "\n- ID: " + song.getId() + " | " + song.getTitle() + " | " + song.getArtist() + " | Rating: " + String.format("%.1f", song.getRatingAverage());
+        }
+
+        return resultado;
+    }
+
     @Override
     public String toString() {
         return "===== PLAYLIST =====" +
@@ -99,7 +115,8 @@ public class Playlist {
                 "\nNombre: " + name +
                 "\nFecha de creación: " + creationDate +
                 "\nCantidad de canciones: " + songList.size() +
-                "\nCalificación promedio: " + String.format("%.2f", calculateRating()) +
+                "\nCalificación promedio: " + String.format("%.1f", calculateRating()) +
+                "\nCanciones: " + obtenerCancionesComoTexto() +
                 "\n====================";
     }
 }

@@ -30,6 +30,14 @@ public class PlaylistController {
         return playlistService.buscarPorId(id);
     }
 
+    public Playlist buscarPorId(String idPlaylist, Customer customer) {
+        return playlistService.buscarPorId(idPlaylist, customer);
+    }
+
+    public Playlist buscarPorNombre(String nombre, Customer customer) {
+        return playlistService.buscarPorNombre(nombre, customer);
+    }
+
     public boolean agregarCancionAPlaylist(String idPlaylist, String idCancion) {
         return playlistService.agregarCancionAPlaylist(idPlaylist, idCancion);
     }

@@ -21,20 +21,28 @@ public class SongController {
         songService.agregarCancion(song);
     }
 
-    public boolean editarCancion(String id, Song nuevaCancion) {
-        return songService.editarCancion(id, nuevaCancion);
-    }
-
-    public boolean eliminarCancion(String id) {
-        return songService.eliminarPorId(id);
-    }
-
     public Song buscarPorId(String id) {
         return songService.buscarPorId(id);
     }
 
     public Song buscarPorTitulo(String title) {
         return songService.buscarPorTitulo(title);
+    }
+
+    public List<Song> buscarPorGenero(String genre) {
+        return songService.buscarPorGenero(genre);
+    }
+
+    public List<Song> buscarPorArtista(String artist) {
+        return songService.buscarPorArtista(artist);
+    }
+
+    public boolean eliminarCancion(String id) {
+        return songService.eliminarPorId(id);
+    }
+
+    public boolean editarCancion(String id, Song nuevaCancion) {
+        return songService.editarCancion(id, nuevaCancion);
     }
 
     public boolean reproducirPreview(String id) {
