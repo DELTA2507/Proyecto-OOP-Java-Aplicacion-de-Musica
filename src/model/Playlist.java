@@ -102,7 +102,10 @@ public class Playlist {
         String resultado = "";
 
         for (Song song : songList) {
-            resultado += "\n- ID: " + song.getId() + " | " + song.getTitle() + " | " + song.getArtist() + " | Rating: " + String.format("%.1f", song.getRatingAverage());
+            resultado += "\n- ID: " + song.getId() +
+                    " | " + song.getTitle() +
+                    " | " + song.getArtist() +
+                    " | Rating: " + String.format("%.1f", song.getRatingAverage());
         }
 
         return resultado;

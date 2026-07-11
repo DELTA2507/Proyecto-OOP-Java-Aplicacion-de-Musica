@@ -55,4 +55,8 @@ public class CustomerController {
     public Customer buscarPorId(String idCustomer) {
         return customerService.buscarPorId(idCustomer);
     }
+
+    public boolean tieneCancionComprada(String idCancion) {
+        return customerService.tieneCancionComprada(idCancion);
+    }
 }

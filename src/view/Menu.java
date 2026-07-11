@@ -177,18 +177,17 @@ public class Menu {
         int opcionUsuario = 0;
 
         do {
-            System.out.println("1. Crear una nueva playlist.");
-            System.out.println("2. Añadir canción a una playlist.");
-            System.out.println("3. Remover canción de una playlist.");
-            System.out.println("4. Reproducir playlist.");
-            System.out.println("5. Calcular valoración de playlist.");
-            System.out.println("6. Añadir fondos a la cuenta.");
-            System.out.println("7. Ver información del cliente.");
-            System.out.println("8. Cambiar contraseña.");
-            System.out.println("9. Ir a tienda de canciones.");
-            System.out.println("10. Ver Top 3.");
-            System.out.println("11. Buscar playlist por nombre.");
-            System.out.println("12. Salir del menú de clientes.");
+            System.out.println("Buen día, bienvenido al menú de clientes.");
+            System.out.println("Por favor, ingrese un dígito:");
+            System.out.println("1. Administrar playlists.");
+            System.out.println("2. Añadir fondos a la cuenta.");
+            System.out.println("3. Ver información del cliente.");
+            System.out.println("4. Cambiar contraseña.");
+            System.out.println("5. Ir a tienda de canciones.");
+            System.out.println("6. Ver Top 3.");
+            System.out.println("7. Ver mis compras.");
+            System.out.println("8. Ir a cola de reproducción.");
+            System.out.println("9. Salir del menú de clientes.");
 
             try {
                 opcionUsuario = Integer.parseInt(entrada.readLine());
@@ -199,88 +198,10 @@ public class Menu {
 
             switch (opcionUsuario) {
                 case 1 -> {
-                    System.out.println("Ingrese el nombre de la nueva playlist:");
-                    String nombre = entrada.readLine();
-
-                    Playlist playlist = customerController.crearPlaylist(nombre);
-
-                    if (playlist != null) {
-                        System.out.println("Playlist creada correctamente.");
-                        System.out.println(playlist);
-                    } else {
-                        System.out.println("No se pudo crear la playlist.");
-                    }
+                    menuPlaylists();
                 }
 
                 case 2 -> {
-                    mostrarPlaylists();
-
-                    System.out.println("Ingrese el ID de la playlist:");
-                    String idPlaylist = entrada.readLine();
-
-                    mostrarCanciones();
-
-                    System.out.println("Ingrese el ID de la canción:");
-                    String idCancion = entrada.readLine();
-
-                    boolean agregada = customerController.agregarCancionAPlaylist(idPlaylist, idCancion);
-
-                    if (agregada) {
-                        System.out.println("La canción fue agregada a la playlist correctamente.");
-                    } else {
-                        System.out.println("No se pudo agregar la canción. Verifique que la canción exista, esté comprada y que la playlist sea suya.");
-                    }
-                }
-
-                case 3 -> {
-                    mostrarPlaylists();
-
-                    System.out.println("Ingrese el ID de la playlist:");
-                    String idPlaylist = entrada.readLine();
-
-                    mostrarCanciones();
-
-                    System.out.println("Ingrese el ID de la canción:");
-                    String idCancion = entrada.readLine();
-
-                    boolean removida = customerController.removerCancionDePlaylist(idPlaylist, idCancion);
-
-                    if (removida) {
-                        System.out.println("La canción fue removida de la playlist correctamente.");
-                    } else {
-                        System.out.println("No se pudo remover la canción. Verifique los IDs.");
-                    }
-                }
-
-                case 4 -> {
-                    mostrarPlaylists();
-
-                    System.out.println("Ingrese el ID de la playlist:");
-                    String idPlaylist = entrada.readLine();
-
-                    boolean reproducida = customerController.reproducirPlaylist(idPlaylist);
-
-                    if (!reproducida) {
-                        System.out.println("No se pudo reproducir la playlist. Verifique si existe, si es suya o si está vacía.");
-                    }
-                }
-
-                case 5 -> {
-                    mostrarPlaylists();
-
-                    System.out.println("Ingrese el ID de la playlist:");
-                    String idPlaylist = entrada.readLine();
-
-                    double promedio = customerController.calcularRatingPlaylist(idPlaylist);
-
-                    if (promedio == -1) {
-                        System.out.println("La playlist no existe o no pertenece al cliente actual.");
-                    } else {
-                        System.out.println("Valoración promedio: " + String.format("%.1f", promedio));
-                    }
-                }
-
-                case 6 -> {
                     System.out.println("Ingrese el monto que desea agregar:");
 
                     try {
@@ -299,7 +220,7 @@ public class Menu {
                     }
                 }
 
-                case 7 -> {
+                case 3 -> {
                     Customer customer = customerController.obtenerClienteActual();
 
                     if (customer != null) {
@@ -309,30 +230,34 @@ public class Menu {
                     }
                 }
 
-                case 8 -> {
+                case 4 -> {
                     cambiarPassword();
                 }
 
-                case 9 -> {
+                case 5 -> {
                     menuCanciones();
                 }
 
-                case 10 -> {
+                case 6 -> {
                     menuTop3();
                 }
 
-                case 11 -> {
-                    buscarPlaylistPorNombre();
+                case 7 -> {
+                    menuCompras();
                 }
 
-                case 12 -> {
+                case 8 -> {
+                    menuCola();
+                }
+
+                case 9 -> {
                     System.out.println("Ha salido del menú de clientes.");
                 }
 
                 default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
             }
 
-        } while (opcionUsuario != 12);
+        } while (opcionUsuario != 9);
     }
 
     public void menuCanciones() throws IOException {
@@ -567,7 +492,7 @@ public class Menu {
         do {
             System.out.println("Buen día, bienvenido al menú de compras.");
             System.out.println("Por favor, ingrese un dígito:");
-            System.out.println("1. Mostrar compras.");
+            System.out.println("1. Mostrar mis compras.");
             System.out.println("2. Salir del menú de compras.");
 
             try {
@@ -579,12 +504,19 @@ public class Menu {
 
             switch (opcionCompras) {
                 case 1 -> {
-                    if (purchaseController.listarCompras().isEmpty()) {
-                        System.out.println("No existen compras registradas.");
-                    } else {
-                        System.out.println("\n===== COMPRAS REGISTRADAS =====");
+                    Customer customer = authController.getCustomerActual();
 
-                        for (Purchase purchase : purchaseController.listarCompras()) {
+                    if (customer == null) {
+                        System.out.println("No existe un cliente activo.");
+                        break;
+                    }
+
+                    if (purchaseController.listarComprasPorCustomer(customer).isEmpty()) {
+                        System.out.println("No tienes compras registradas.");
+                    } else {
+                        System.out.println("\n===== MIS COMPRAS =====");
+
+                        for (Purchase purchase : purchaseController.listarComprasPorCustomer(customer)) {
                             System.out.println(purchase);
                         }
                     }
@@ -607,12 +539,14 @@ public class Menu {
         do {
             System.out.println("Buen día, bienvenido a la cola de reproducción.");
             System.out.println("Por favor, ingrese un dígito:");
-            System.out.println("1. Reproducir canción actual.");
-            System.out.println("2. Siguiente canción en la cola.");
-            System.out.println("3. Canción previa en la cola.");
-            System.out.println("4. Mostrar estado de la cola.");
-            System.out.println("5. Limpiar cola.");
-            System.out.println("6. Salir del menú de cola de reproducción.");
+            System.out.println("1. Agregar canción a la cola.");
+            System.out.println("2. Agregar playlist a la cola.");
+            System.out.println("3. Reproducir canción actual.");
+            System.out.println("4. Siguiente canción en la cola.");
+            System.out.println("5. Canción previa en la cola.");
+            System.out.println("6. Mostrar estado de la cola.");
+            System.out.println("7. Limpiar cola.");
+            System.out.println("8. Salir del menú de cola de reproducción.");
 
             try {
                 opcionCola = Integer.parseInt(entrada.readLine());
@@ -623,6 +557,57 @@ public class Menu {
 
             switch (opcionCola) {
                 case 1 -> {
+                    mostrarCanciones();
+
+                    System.out.println("Ingrese el ID de la canción que desea agregar a la cola:");
+                    String idCancion = entrada.readLine();
+
+                    Song song = songController.buscarPorId(idCancion);
+
+                    if (song == null) {
+                        System.out.println("La canción no existe.");
+                        break;
+                    }
+
+                    if (!customerController.tieneCancionComprada(idCancion)) {
+                        System.out.println("No puede agregar esta canción a la cola porque no la ha comprado.");
+                        break;
+                    }
+
+                    playbackQueueController.agregarCancion(song);
+                    System.out.println("Canción agregada a la cola correctamente.");
+                }
+
+                case 2 -> {
+                    mostrarPlaylists();
+
+                    Customer customer = authController.getCustomerActual();
+
+                    if (customer == null) {
+                        System.out.println("No existe un cliente activo.");
+                        break;
+                    }
+
+                    System.out.println("Ingrese el ID de la playlist que desea agregar a la cola:");
+                    String idPlaylist = entrada.readLine();
+
+                    Playlist playlist = playlistController.buscarPorId(idPlaylist, customer);
+
+                    if (playlist == null) {
+                        System.out.println("La playlist no existe o no pertenece al cliente actual.");
+                        break;
+                    }
+
+                    if (playlist.estaVacia()) {
+                        System.out.println("La playlist está vacía.");
+                        break;
+                    }
+
+                    playbackQueueController.agregarPlaylist(playlist);
+                    System.out.println("Playlist agregada a la cola correctamente.");
+                }
+
+                case 3 -> {
                     if (playbackQueueController.estaVacia()) {
                         System.out.println("La cola de reproducción está vacía.");
                         break;
@@ -638,7 +623,7 @@ public class Menu {
                     }
                 }
 
-                case 2 -> {
+                case 4 -> {
                     if (playbackQueueController.estaVacia()) {
                         System.out.println("La cola de reproducción está vacía.");
                         break;
@@ -655,7 +640,7 @@ public class Menu {
                     siguiente.playSong();
                 }
 
-                case 3 -> {
+                case 5 -> {
                     if (playbackQueueController.estaVacia()) {
                         System.out.println("La cola de reproducción está vacía.");
                         break;
@@ -672,11 +657,11 @@ public class Menu {
                     anterior.playSong();
                 }
 
-                case 4 -> {
+                case 6 -> {
                     System.out.println(playbackQueueController.obtenerEstado());
                 }
 
-                case 5 -> {
+                case 7 -> {
                     boolean limpiada = playbackQueueController.limpiarCola();
 
                     if (limpiada) {
@@ -686,14 +671,14 @@ public class Menu {
                     }
                 }
 
-                case 6 -> {
+                case 8 -> {
                     System.out.println("Ha salido del menú de cola de reproducción.");
                 }
 
                 default -> System.out.println("Por favor elija una opción de las anteriormente mostradas.");
             }
 
-        } while (opcionCola != 6);
+        } while (opcionCola != 8);
     }
 
     private void menuTop3() {
